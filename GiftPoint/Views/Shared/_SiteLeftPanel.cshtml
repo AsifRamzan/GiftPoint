@@ -1,0 +1,175 @@
+﻿@using GiftPoint.Filters
+
+@functions{ 
+
+//List<GiftPoint.Models.Menu> menus = new GiftPoint.Models.MenusRight().GetParentMenus();
+//List<GiftPoint.Models.SP_MenuRights_Result> configs = new List<GiftPoint.Models.SP_MenuRights_Result>();
+
+        }
+@{ 
+//var UserObj = new GiftPoint.Filters.UserSession().getUserSession();
+
+//if (UserObj != null)
+//{
+//    configs = new GiftPoint.Models.MenusRight().GetAllMenus(UserObj.UserRoleId);
+//}
+//else
+//{
+//    Response.Redirect("~/");
+//}
+}
+
+<aside id="left-panel">
+
+    <nav>
+        <ul>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-table"></i> <span class="menu-item-parent">Tables</span></a>
+                <ul>
+                    <li>
+                        <a href="table.html">Normal Tables</a>
+                    </li>
+                    <li>
+                        <a href="datatables.html">Data Tables <span class="badge inbox-badge bg-color-greenLight hidden-mobile">responsive</span></a>
+                    </li>
+                    <li>
+                        <a href="jqgrid.html">Jquery Grid</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-pencil-square-o"></i> <span class="menu-item-parent">Forms</span></a>
+                <ul>
+                    <li>
+                        <a href="form-elements.html">Smart Form Elements</a>
+                    </li>
+                    <li>
+                        <a href="form-templates.html">Smart Form Layouts</a>
+                    </li>
+                    <li>
+                        <a href="validation.html">Smart Form Validation</a>
+                    </li>
+                    <li>
+                        <a href="bootstrap-forms.html">Bootstrap Form Elements</a>
+                    </li>
+                    <li>
+                        <a href="bootstrap-validator.html">Bootstrap Form Validation</a>
+                    </li>
+                    <li>
+                        <a href="plugins.html">Form Plugins</a>
+                    </li>
+                    <li>
+                        <a href="wizard.html">Wizards</a>
+                    </li>
+                    <li>
+                        <a href="other-editors.html">Bootstrap Editors</a>
+                    </li>
+                    <li>
+                        <a href="dropzone.html">Dropzone</a>
+                    </li>
+                    <li>
+                        <a href="image-editor.html">Image Cropping</a>
+                    </li>
+                    <li>
+                        <a href="ckeditor.html">CK Editor</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- end user info -->
+    @*<nav>
+        <ul>
+            @{
+                foreach (var menu in menus.Where(m => m.ParentId == null))
+                {
+                    bool proceed = false;
+                    var subMenus = menus.Where(m => m.ParentId.Equals(menu.MenuId)).ToList();
+                    if (subMenus.Count() > 0)
+                    {
+                        foreach (var list in subMenus)
+                        {
+                            var subMenusConfigs = configs.Where(c => c.MenuId.Equals(list.MenuId)).ToList();
+                            if (subMenusConfigs.Count() > 0)
+                            {
+                                proceed = true;
+                            }
+                        }
+                        if (proceed == true)
+                        {
+                            <li>
+                                <a href="#"><i class="fa fa-lg fa-fw fa-@menu.Icon navmenu" ></i> <span class="menu-item-parent navmenu">@menu.MenuName</span></a>
+                                <ul>
+                                    @GenerateMenu(subMenus)
+                                </ul>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        var child = configs.SingleOrDefault(c => c.MenuId.Equals(menu.MenuId));
+                        if (child != null)
+                        {
+                            <li>
+                                <a href = "@Url.Action(child.ActionName, child.ControllerName)" ><span class="menu-item-parent navmenu">@menu.MenuName</span></a>
+                            </li>
+                        }
+                    }
+
+                }
+
+            }
+
+            @helper GenerateMenu(List<GiftPoint.Models.Menu> list)
+            {
+                foreach (var menu in list)
+                {
+                    var subMenus = configs.Where(c => c.MenuId.Equals(menu.MenuId)).ToList();
+                    if (subMenus.Count() > 1)
+                    {
+                        <li>
+                            <a href="#"><i class="fa fa-lg fa-fw fa-@menu.Icon navmenu"></i> <span class="menu-item-parent navmenu">@menu.MenuName</span></a>
+
+                            <ul>
+                                @{
+                                    foreach (var child in configs.Where(c => c.MenuId.Equals(menu.MenuId)))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action(child.ActionName, child.ControllerName)" title="@child.ActionDescription"> <span class="menu-item-parent navmenu">@child.ActionDescription</span></a>
+                                        </li>
+                                    }
+                                }
+                                    
+
+                            </ul>
+                        </li>
+                    }
+                    else if(subMenus.Count()==1)
+                    {
+                        var child = configs.SingleOrDefault(c => c.MenuId.Equals(menu.MenuId));
+                        if (child != null)
+                        {
+                            <li>
+                                <a href="@Url.Action(child.ActionName, child.ControllerName)"> <span class="menu-item-parent navmenu">@menu.MenuName</span></a>
+                            </li>
+                        }
+                    }
+
+
+                }
+
+            }
+
+
+        </ul>
+    </nav>*@
+
+
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+
+</aside>
+

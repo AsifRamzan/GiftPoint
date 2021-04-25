@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="row" style="margin-top:50px; background:none;">
+    <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-4 pull-right" style="background:none;">
+        <div class="well no-padding" style="background:none;">
+            <form action="~/Home/Login" method="post" id="login-form" class="smart-form client-form" style="background:none; opacity:0.8">
+                <header>
+                    Sign In
+                </header>
+
+                <fieldset>
+                    <section style="margin-bottom:0px">
+                        <label style="color:red"><b>@ViewData["RetMessage"]</b></label>
+                    </section>
+                    <section>
+                        <label class="label">Login ID</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-user"></i>
+                            <input type="text" id="txtLoginId" name="txtLoginId" value="@ViewData["txtLoginId"]" style="background:none; opacity:0.8">
+                            <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter login ID</b>
+                        </label>
+                    </section>
+
+                    <section>
+                        <label class="label">Password</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-lock"></i>
+                            <input type="password" id="txtPassword" name="txtPassword" value="@ViewData["txtPassword"]" style="background:none; opacity:0.8">
+                            <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
+                        </label>
+                    </section>
+                </fieldset>
+                <footer>
+                    <button type="submit" class="btn btn-primary">
+                        Sign in
+                    </button>
+                </footer>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#login-form").validate({
+            // Rules for form validation
+            rules: {
+                txtLoginId: {
+                    required: true
+                },
+                txtPassword: {
+                    required: true,
+                    maxlength: 20
+                }
+            },
+
+            // Messages for form validation
+            messages: {
+                txtLoginId: {
+                    required: 'Please enter your email address'
+                },
+                txtPassword: {
+                    required: 'Please enter your password'
+                }
+            },
+
+            // Do not change code below
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            }
+        });
+    });
+	
+</script>

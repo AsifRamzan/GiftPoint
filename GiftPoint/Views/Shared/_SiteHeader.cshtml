@@ -1,0 +1,75 @@
+﻿
+<script src="~/Content/js/libs/jquery-2.1.1.min.js"></script>
+<script src="~/Scripts/SiteJS/DistributorNotification.js"></script>
+
+<header id="header">
+    <div id="logo-group">
+
+        <span id="logo" style="min-width:400px">
+            <img src="~/Content/img/PepsiLogo.png" alt="Sales Operations" style="float: left">
+            <span class="siteName">Gift Point - EStore</span>
+        </span>
+    </div>
+
+
+    <!-- pulled right: nav area -->
+    <div class="pull-right">
+
+        <!-- collapse menu button -->
+        <div id="hide-menu" class="btn-header pull-right">
+            <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+        </div>
+        <!-- end collapse menu -->
+        <!-- #MOBILE -->
+
+        <!-- logout button -->
+        <div id="logout" class="btn-header transparent pull-right">
+            <span> <a href="~/Home/Logout" title="Sign Out" data-icon="sign-out" data-title="Logout" data-action="userLogout" data-logout-msg="Are you sure you want to Sign Out ?"><i class="fa fa-sign-out"></i></a> </span>
+        </div>
+        <!-- end logout button -->
+
+        <!-- fullscreen button -->
+        <div id="fullscreen" class="btn-header transparent pull-right">
+            <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+        </div>
+        <!-- end fullscreen button -->
+
+        @{
+            string loginName = "Admin Sir";
+            try
+            {
+                //var user = new GiftPoint.Filters.UserSession().getUserSession();
+                //if (user != null)
+                //{
+                //    loginName = String.Concat(user.FirstName, " ", user.LastName);
+                //}
+            }
+            catch (Exception ex)
+            {
+                //new SalesOperations.Filters.UserSession().expireSession();
+                //Response.Redirect("~/");
+            }
+        }
+
+        <ul class="header-dropdown-list hidden-xs">
+            <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="txt-color-blueDark"> Welcome, <b>@loginName</b> </span> <i class="fa fa-angle-down txt-color-blueDark"></i> </a>
+                <ul class="dropdown-menu pull-right">
+                    <li>
+                        <a href="~/Settings/ChangePassword"><i class="fa fa-key"></i> Change Password</a>
+                    </li>
+                    <li id="logout">
+                        <a href="~/Home/Logout" title="Sign Out" data-icon="sign-out" data-title="Logout" data-action="userLogout" data-logout-msg="Are you sure you want to Sign Out ?"><i class="fa fa-sign-out"></i> Sign Out</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- end pulled right: nav area -->
+
+
+</header>
+
+<div class="modal-dialog" id="distributormodal" hidden>
+    <!-- /.modal-content -->
+</div>

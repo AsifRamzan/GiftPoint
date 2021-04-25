@@ -1,0 +1,293 @@
+﻿
+@{
+    var conf = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath);
+    var section = (System.Web.Configuration.SessionStateSection)conf.GetSection("system.web/sessionState");
+    string timeout = section.Timeout.TotalMinutes.ToString();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title - GP</title>
+    
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/css/font-awesome.min.css">
+
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/css/smartadmin-skins.min.css">
+
+    <!-- SmartAdmin RTL Support -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/css/smartadmin-rtl.min.css">
+
+    <link href="~/Content/css/your_style.css" rel="stylesheet" />
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/Content/img/PepsiLogo.png" type="image/x-icon">
+    <link rel="icon" href="~/Content/img/PepsiLogo.png" type="image/x-icon">
+
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+    <!-- Specifying a Webpage Icon for Web Clip
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+    <link rel="apple-touch-icon" href="~/Content/img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/img/splash/touch-icon-ipad-retina.png">
+
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Startup image for web apps -->
+    <link rel="apple-touch-startup-image" href="~/Content/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="~/Content/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="~/Content/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+    
+    <style>
+        .error {
+            color: #a52a2a;
+            font-weight: 600;
+        }
+    #footerdiv {
+    position: fixed;
+    bottom: 0px;  
+               }
+    </style>
+</head>
+<body class="">
+
+    @Html.Partial("_SiteHeader")
+   
+    @Html.Partial("_SiteLeftPanel")
+          
+    <div id="main" role="main">
+            
+        <!--notification bar-->
+        @RenderBody()
+    </div>
+       
+    <table id="js-heightControl" style="height: 0;">
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+       
+    @Html.Partial("_SiteFooter")
+   
+
+    <form id="frmSiteUrl" action="@Url.Content("~/")" method="post"></form>
+    
+    @Html.Partial("WaiteProcessingControl")
+       
+     
+    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    <script src="~/Content/js/libs/jquery-2.1.1.min.js"></script>
+    <script>
+        if (!window.jQuery) {
+            document.write('<script src="~/Content/js/libs/jquery-2.1.1.min.js"><\/script>');
+        }
+    </script>
+
+    <script src="~/Content/js/libs/jquery-ui-1.10.3.min.js"></script>
+    <script>
+        if (!window.jQuery.ui) {
+            document.write('<script src="~/Content/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+        }
+    </script>
+
+    <!-- IMPORTANT: APP CONFIG -->
+    <script src="~/Content/js/app.config.js"></script>
+
+    <!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+    <script src="~/Content/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- BootBox JS -->
+    <script src="~/Content/js/plugin/bootbox/bootbox.min.js"></script>
+
+    <!-- CUSTOM NOTIFICATION -->
+    <script src="~/Content/js/notification/SmartNotification.min.js"></script>
+
+    <!-- JARVIS WIDGETS -->
+    <script src="~/Content/js/smartwidgets/jarvis.widget.min.js"></script>
+
+    <!-- JQUERY VALIDATE -->
+    <script src="~/Content/js/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+    <!-- JQUERY MASKED INPUT -->
+    <script src="~/Content/js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+    <!-- JQUERY SELECT2 INPUT -->
+    <script src="~/Content/js/plugin/select2/select2.min.js"></script>
+
+    <!-- JQUERY UI + Bootstrap Slider -->        
+    <script src="~/Content/js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+    <!-- browser msie issue fix -->
+    <script src="~/Content/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+    <![endif]-->
+    <!-- MAIN APP JS FILE -->
+    <script src="~/Content/js/app.min.js"></script>
+
+    <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="~/Content/js/plugin/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/js/plugin/datatables/dataTables.colVis.min.js"></script>
+    <script src="~/Content/js/plugin/datatables/dataTables.tableTools.min.js"></script>
+    <script src="~/Content/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+        
+    <!--Commit-->
+    @*<script src="~/Content/js/plugin/printThis.js"></script>*@
+
+    <script type="text/javascript">
+
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+        $(document).ready(function () {
+
+            $('.select2').select2();
+
+            //pageSetUp();
+
+            /* BASIC ;*/
+            var responsiveHelper_dt_basic = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            $('#dt_basic').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth": true,
+                "oLanguage": {
+                    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+                },
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic) {
+                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_dt_basic.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_dt_basic.respond();
+                },
+
+                "order": [[0, "order"]],
+                "aoColumnDefs": [
+                    { 'bSortable': false, 'aTargets': ["no-sort"] }
+                ]
+            });
+
+            CheckNotification();
+
+        });
+
+        function CheckNotification()
+        {
+            @{
+                long userId = 0;
+                try
+                {
+                    //var user = new GiftPoint.Filters.UserSession().getUserSession();
+                    //if (user != null)
+                    //{
+                    //    userId = user.UserId;
+                    //}
+                }
+                catch (Exception ex)
+                {
+                    //new SalesOperations.Filters.UserSession().expireSession();
+                    //Response.Redirect("~/");
+                }
+            }
+
+            @*$.ajax({
+                url: "/Notification/CheckNotification",
+                type: "POST",
+                data: JSON.stringify({ UserId: '@userId' }),
+                dataType: 'text json',
+                async: true,
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    if (response != null) {
+
+                        if (response.responseText == true)
+                        {
+                            $('#divNotification').remove();
+                            $('#main').prepend($('<div id="divNotification" class="row" style="width:100%; height:40px"><div class="alert alert-warning fade in" style="height:40px"><i class="fa-fw fa fa-times"></i><strong>Notification:</strong> Some rates has been changed!&nbsp;&nbsp;<button type="button" class="btn btn-link pull-right" id="btnRefresh" onclick="CheckNotification();"><i class="fa"></i>  Refresh</button>&nbsp;&nbsp;<button type="button" class="btn btn-link pull-right" onclick="ViewRatesList();" id="btnViewRates"><i class="fa"></i>  View </button>&nbsp;&nbsp;<button type="button" class="btn btn-link pull-right" id="btnApplyRates" onclick="ApplyNewRates();"><i class="fa"></i>  Apply New Rates</button></div></div>'));
+                        }
+                        else if(response.responseText == false)
+                        {
+                            $('#divNotification').remove();
+                        }
+                    }
+                    else if (!response.success) {
+                        alert(response.responseText);
+                    }
+                },
+                error: function (response) {
+                    alert("error!");
+                }
+            });*@
+        }
+
+    </script>
+
+    <script>
+        $(document).ready(function (e) {
+            var url = window.location.pathname;
+            var link = $("nav a[href='" + url + "']");
+            $(link).parents("ul").attr("style", "display: block");
+            $(link).parents("li").addClass("open");
+            $(link).parent("li").removeClass("open");
+            $(link).parent("li").addClass("active");
+        });
+
+        $('.smart-form #btnSubmit, .smart-form #save').on("click",
+            function (e) {
+                //alert(2);
+                e.preventDefault();
+                if ($('.smart-form').valid()) {
+                    var submit = true;
+                    var alertMessage = "";
+                    $(this).parents('.smart-form').find('select.select2:required').each(function (e) {
+                        var current = $(this);
+                        if (current) {
+                            if ($(current).val() === "") {
+                                alertMessage += $(current).attr("title");
+                                alertMessage += "<br />";
+                                submit = false;
+                            }
+                        }
+                    });
+                    if (submit === true) {
+                        $('.smart-form').submit();
+                    } else {
+                        bootbox.alert(alertMessage);
+                    }
+                }
+            });
+    </script>
+
+    <script src="~/Scripts/SiteJS/SalesOperations.js"></script>
+
+</body>
+
+</html>

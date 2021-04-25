@@ -1,0 +1,19 @@
+.siteName
+{
+    font-size:20px;float:left;margin-top:7px;margin-left:7px;
+}
+.topdarkborder
+{
+    border-top:solid 2px #222;
+}
+.black
+{
+    color:#000;
+}
+.red
+{
+    color:red;
+}
+
+    /*input:focus:required:invalid {border: 2px solid red;}
+    select:focus:required:invalid {border: 2px solid red;}*/

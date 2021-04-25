@@ -1,0 +1,49 @@
+﻿@using GiftPoint.Common
+@using GiftPoint.Models
+
+@if (ViewData[Constants.OPERATIONALMESSAGE] != null)
+{
+    <div style="padding-left:10px;padding-right:10px">
+        @{
+            OperationMessageEntity Message = (OperationMessageEntity)ViewData[Constants.OPERATIONALMESSAGE];
+            if (Message.MessageType == Convert.ToInt32(OperationMessageType.Error))
+            {
+                <div class="alert alert-danger fade in">
+                    <button data-dismiss="alert" class="close">×</button>
+                    <i class="fa-fw fa fa-times"></i>
+                    <strong>@Message.MessageTitle</strong> @Message.MessageText
+                </div>
+            }
+            else if (Message.MessageType == Convert.ToInt32(OperationMessageType.Success))
+            {
+                <div class="alert alert-success fade in">
+                    <button data-dismiss="alert" class="close">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-check"></i>
+                    <strong>@Message.MessageTitle</strong> @Message.MessageText
+                </div>
+            }
+            else if (Message.MessageType == Convert.ToInt32(OperationMessageType.Information))
+            {
+                <div class="alert alert-info fade in">
+                    <button data-dismiss="alert" class="close">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-info"></i>
+                    <strong>@Message.MessageTitle</strong> @Message.MessageText
+                </div>
+            }
+            else if (Message.MessageType == Convert.ToInt32(OperationMessageType.Notics))
+            {
+                <div class="alert alert-warning fade in">
+                    <button data-dismiss="alert" class="close">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong> @Message.MessageTitle</strong> @Message.MessageText
+                </div>
+            }
+        }
+    </div>
+}
