@@ -52,6 +52,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -189,6 +191,7 @@
     <Compile Include="Common\TypeList.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BrandController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Filters\CookieHandler.cs" />
@@ -201,12 +204,52 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Brand.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Classes\Brand.cs" />
+    <Compile Include="Models\Department.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Designation.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\General\DropdownModels.cs" />
     <Compile Include="Models\General\Months.cs" />
     <Compile Include="Models\General\Object_History.cs" />
     <Compile Include="Models\General\OperationMessageEntity.cs" />
+    <Compile Include="Models\GiftPoint.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GiftPoint.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GiftPoint.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GiftPoint.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GiftPoint.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Menu.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MenusConfiguration.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MenusRight.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRole.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -919,6 +962,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\GiftPoint.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GiftPoint.edmx</DependentUpon>
+      <LastGenOutput>GiftPoint.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\GiftPoint.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GiftPoint.edmx</DependentUpon>
+      <LastGenOutput>GiftPoint.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
@@ -965,6 +1018,13 @@
     <Content Include="Content\js\plugin\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Content\js\plugin\ckeditor\samples\sample_posteddata.php" />
     <Content Include="Content\js\plugin\ckeditor\skins\moono\readme.md" />
+    <EntityDeploy Include="Models\GiftPoint.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GiftPoint.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\GiftPoint.edmx.diagram">
+      <DependentUpon>GiftPoint.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1018,6 +1078,7 @@
     <Content Include="Views\Shared\_SiteHeader.cshtml" />
     <Content Include="Views\Shared\_SiteLayout.cshtml" />
     <Content Include="Views\Shared\_SiteLeftPanel.cshtml" />
+    <Content Include="Views\Brand\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1030,6 +1091,9 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

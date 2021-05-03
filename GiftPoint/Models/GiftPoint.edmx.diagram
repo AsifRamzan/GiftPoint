@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="64476a8a64dc40eca0d6a1589704b77c" Name="Diagram1">
+        <EntityTypeShape EntityType="GiftPointModel.Department" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GiftPointModel.Designation" Width="1.5" PointX="5.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GiftPointModel.Menu" Width="1.5" PointX="1.5" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GiftPointModel.MenusConfiguration" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GiftPointModel.MenusRight" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GiftPointModel.UserRole" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GiftPointModel.User" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="GiftPointModel.FK_MenuConfigurations_Menu" ManuallyRouted="false" />
+        <AssociationConnector Association="GiftPointModel.FK_MenusRights_MenusConfigurations" ManuallyRouted="false" />
+        <AssociationConnector Association="GiftPointModel.FK_MenusRights_UserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="GiftPointModel.FK_Users_UserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GiftPointModel.Brand" Width="1.5" PointX="8.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

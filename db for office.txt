@@ -1,0 +1,26 @@
+USE [GiftPoint]
+GO
+
+/****** Object:  Table [dbo].[Brands]    Script Date: 04/05/2021 12:30:15 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Brands](
+	[BrandId] [int] IDENTITY(1,1) NOT NULL,
+	[BrandTitle] [nvarchar](500) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedBy] [int] NOT NULL,
+	[CreatedOn] [datetime] NOT NULL,
+	[LastUpdatedBy] [int] NULL,
+	[LastUpdatedOn] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[BrandId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+

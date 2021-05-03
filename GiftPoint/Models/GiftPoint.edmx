@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GiftPointModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Brands">
+          <Key>
+            <PropertyRef Name="BrandId" />
+          </Key>
+          <Property Name="BrandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandTitle" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Designations">
+          <Key>
+            <PropertyRef Name="Designation_Id" />
+          </Key>
+          <Property Name="Designation_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Designation_Title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Icon" Type="nvarchar" MaxLength="50" />
+          <Property Name="DisplayOrder" Type="int" />
+        </EntityType>
+        <EntityType Name="MenusConfigurations">
+          <Key>
+            <PropertyRef Name="ConfigurationId" />
+          </Key>
+          <Property Name="ConfigurationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuId" Type="int" />
+          <Property Name="ControllerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionDescription" Type="ntext" />
+        </EntityType>
+        <EntityType Name="MenusRights">
+          <Key>
+            <PropertyRef Name="RightsId" />
+          </Key>
+          <Property Name="RightsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="ConfigurationId" Type="int" />
+          <Property Name="RowCreated" Type="datetime" />
+          <Property Name="RowCreatedByUserId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleTitle" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserRoleId" Type="int" Nullable="false" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LoginPassword" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_MenuConfigurations_Menu">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+          <End Role="MenusConfigurations" Type="Self.MenusConfigurations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="MenusConfigurations">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenusRights_MenusConfigurations">
+          <End Role="MenusConfigurations" Type="Self.MenusConfigurations" Multiplicity="0..1" />
+          <End Role="MenusRights" Type="Self.MenusRights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenusConfigurations">
+              <PropertyRef Name="ConfigurationId" />
+            </Principal>
+            <Dependent Role="MenusRights">
+              <PropertyRef Name="ConfigurationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenusRights_UserRoles">
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="0..1" />
+          <End Role="MenusRights" Type="Self.MenusRights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="MenusRights">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserRoles">
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GiftPointModelStoreContainer">
+          <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Designations" EntityType="Self.Designations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MenusConfigurations" EntityType="Self.MenusConfigurations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MenusRights" EntityType="Self.MenusRights" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MenuConfigurations_Menu" Association="Self.FK_MenuConfigurations_Menu">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="MenusConfigurations" EntitySet="MenusConfigurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenusRights_MenusConfigurations" Association="Self.FK_MenusRights_MenusConfigurations">
+            <End Role="MenusConfigurations" EntitySet="MenusConfigurations" />
+            <End Role="MenusRights" EntitySet="MenusRights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenusRights_UserRoles" Association="Self.FK_MenusRights_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="MenusRights" EntitySet="MenusRights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserRoles" Association="Self.FK_Users_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GiftPointModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Designation">
+          <Key>
+            <PropertyRef Name="Designation_Id" />
+          </Key>
+          <Property Name="Designation_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Designation_Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayOrder" Type="Int32" />
+          <NavigationProperty Name="MenusConfigurations" Relationship="Self.FK_MenuConfigurations_Menu" FromRole="Menus" ToRole="MenusConfigurations" />
+        </EntityType>
+        <EntityType Name="MenusConfiguration">
+          <Key>
+            <PropertyRef Name="ConfigurationId" />
+          </Key>
+          <Property Name="ConfigurationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuId" Type="Int32" />
+          <Property Name="ControllerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK_MenuConfigurations_Menu" FromRole="MenusConfigurations" ToRole="Menus" />
+          <NavigationProperty Name="MenusRights" Relationship="Self.FK_MenusRights_MenusConfigurations" FromRole="MenusConfigurations" ToRole="MenusRights" />
+        </EntityType>
+        <EntityType Name="MenusRight">
+          <Key>
+            <PropertyRef Name="RightsId" />
+          </Key>
+          <Property Name="RightsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="ConfigurationId" Type="Int32" />
+          <Property Name="RowCreated" Type="DateTime" Precision="3" />
+          <Property Name="RowCreatedByUserId" Type="Int64" />
+          <NavigationProperty Name="MenusConfiguration" Relationship="Self.FK_MenusRights_MenusConfigurations" FromRole="MenusRights" ToRole="MenusConfigurations" />
+          <NavigationProperty Name="UserRole" Relationship="Self.FK_MenusRights_UserRoles" FromRole="MenusRights" ToRole="UserRoles" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleTitle" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MenusRights" Relationship="Self.FK_MenusRights_UserRoles" FromRole="UserRoles" ToRole="MenusRights" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_UserRoles" FromRole="UserRoles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserRoleId" Type="Int32" Nullable="false" />
+          <Property Name="LoginName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LoginPassword" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserRole" Relationship="Self.FK_Users_UserRoles" FromRole="Users" ToRole="UserRoles" />
+        </EntityType>
+        <Association Name="FK_MenuConfigurations_Menu">
+          <End Role="Menus" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="MenusConfigurations" Type="Self.MenusConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="MenusConfigurations">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenusRights_MenusConfigurations">
+          <End Role="MenusConfigurations" Type="Self.MenusConfiguration" Multiplicity="0..1" />
+          <End Role="MenusRights" Type="Self.MenusRight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenusConfigurations">
+              <PropertyRef Name="ConfigurationId" />
+            </Principal>
+            <Dependent Role="MenusRights">
+              <PropertyRef Name="ConfigurationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenusRights_UserRoles">
+          <End Role="UserRoles" Type="Self.UserRole" Multiplicity="0..1" />
+          <End Role="MenusRights" Type="Self.MenusRight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="MenusRights">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserRoles">
+          <End Role="UserRoles" Type="Self.UserRole" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GiftPointEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Designations" EntityType="Self.Designation" />
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="MenusConfigurations" EntityType="Self.MenusConfiguration" />
+          <EntitySet Name="MenusRights" EntityType="Self.MenusRight" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_MenuConfigurations_Menu" Association="Self.FK_MenuConfigurations_Menu">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="MenusConfigurations" EntitySet="MenusConfigurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenusRights_MenusConfigurations" Association="Self.FK_MenusRights_MenusConfigurations">
+            <End Role="MenusConfigurations" EntitySet="MenusConfigurations" />
+            <End Role="MenusRights" EntitySet="MenusRights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenusRights_UserRoles" Association="Self.FK_MenusRights_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="MenusRights" EntitySet="MenusRights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserRoles" Association="Self.FK_Users_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Brands" EntityType="GiftPointModel.Brand" />
+        </EntityContainer>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="BrandId" />
+          </Key>
+          <Property Name="BrandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandTitle" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GiftPointModelStoreContainer" CdmEntityContainer="GiftPointEntities">
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="GiftPointModel.Department">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Designations">
+            <EntityTypeMapping TypeName="GiftPointModel.Designation">
+              <MappingFragment StoreEntitySet="Designations">
+                <ScalarProperty Name="Designation_Id" ColumnName="Designation_Id" />
+                <ScalarProperty Name="Designation_Title" ColumnName="Designation_Title" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="GiftPointModel.Menu">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenusConfigurations">
+            <EntityTypeMapping TypeName="GiftPointModel.MenusConfiguration">
+              <MappingFragment StoreEntitySet="MenusConfigurations">
+                <ScalarProperty Name="ConfigurationId" ColumnName="ConfigurationId" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ActionDescription" ColumnName="ActionDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenusRights">
+            <EntityTypeMapping TypeName="GiftPointModel.MenusRight">
+              <MappingFragment StoreEntitySet="MenusRights">
+                <ScalarProperty Name="RightsId" ColumnName="RightsId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ConfigurationId" ColumnName="ConfigurationId" />
+                <ScalarProperty Name="RowCreated" ColumnName="RowCreated" />
+                <ScalarProperty Name="RowCreatedByUserId" ColumnName="RowCreatedByUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="GiftPointModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleTitle" ColumnName="RoleTitle" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="GiftPointModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="LoginPassword" ColumnName="LoginPassword" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Brands">
+            <EntityTypeMapping TypeName="GiftPointModel.Brand">
+              <MappingFragment StoreEntitySet="Brands">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="BrandTitle" ColumnName="BrandTitle" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

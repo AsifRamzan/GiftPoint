@@ -1,0 +1,97 @@
+﻿@model GiftPoint.Models.Brand
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+    </span>
+    <ol class="breadcrumb">
+        <li>Configuration</li>
+        <li>Brands</li>
+        @if (ViewData["hidDisId"] != null)
+        {
+            if (ViewData["IsView"] != null)
+            {
+                <li>View</li>
+            }
+            else
+            {
+                <li>Edit</li>
+            }
+        }
+        else
+        {
+            <li>Add</li>
+        }
+    </ol>
+</div>
+
+<div id="content">
+    <div class="row">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @if (ViewData["hidDisId"] != null)
+            {
+                if (ViewData["IsView"] != null)
+                {
+                    <h1><i class="fa fa-desktop fa-fw "></i> View Brand</h1>
+                }
+                else
+                {
+                    <h1><i class="fa fa-edit fa-fw "></i> Edit Brand</h1>
+                }
+            }
+            else
+            {
+                <h1><i class="fa fa-save fa-fw "></i> Add Brand</h1>
+            }
+        </div>
+    </div>
+
+    <section class="">
+        <div class="row">
+            <article class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.Partial("OperationMessage")
+
+                <div class="jarviswidget jarviswidget-color-darken topdarkborder">
+
+                    @using (Html.BeginForm("Create", "Brand", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform" }))
+                    {
+                        @Html.AntiForgeryToken()                        
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <fieldset>
+                            <div class="row">
+                                <section class="col col-md-12">
+                                    <div class="req">@Html.LabelFor(m => m.BrandTitle, new { @class = "control-label" })</div>
+                                    <label class="input">                                        
+                                        @Html.TextBoxFor(m => m.BrandTitle, new { @class = "form-control", @placeholder = "Brand Title", @required = "required" })
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-md-12">                                    
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="txtIsActive" checked id="txtIsActive">
+                                        <i></i>Active
+                                    </label>
+                                </section>
+                            </div>
+                        </fieldset>
+
+                        <footer>
+                            <a class="btn btn-default" href="@Url.Action("Index", "Brand")">Cancel</a>
+                            <button type="button" class="btn btn-primary" id="save">
+                                <i class="fa fa-save"></i>  Save
+                            </button>
+                        </footer>                        
+                    }
+
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
