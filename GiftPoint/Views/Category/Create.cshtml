@@ -1,4 +1,4 @@
-﻿@model GiftPoint.Models.Brand
+﻿@model GiftPoint.Models.Category
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
@@ -10,8 +10,8 @@
     </span>
     <ol class="breadcrumb">
         <li>Configuration</li>
-        <li>Brands</li>
-        @if (Model.BrandId != 0)
+        <li>Category</li>
+        @if (Model.CategoryId != 0)
         {
             if (ViewData["IsView"] != null)
             {
@@ -32,20 +32,20 @@
 <div id="content">
     <div class="row">
         <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            @if (Model.BrandId != 0)
+            @if (Model.CategoryId != 0)
             {
                 if (ViewData["IsView"] != null)
                 {
-                    <h1><i class="fa fa-desktop fa-fw "></i> View Brand</h1>
+                    <h1><i class="fa fa-desktop fa-fw "></i> View Category</h1>
                 }
                 else
                 {
-                    <h1><i class="fa fa-edit fa-fw "></i> Edit Brand</h1>
+                    <h1><i class="fa fa-edit fa-fw "></i> Edit Category</h1>
                 }
             }
             else
             {
-                <h1><i class="fa fa-save fa-fw "></i> Add Brand</h1>
+                <h1><i class="fa fa-save fa-fw "></i> Add Category</h1>
             }
         </div>
     </div>
@@ -56,26 +56,33 @@
                 @Html.Partial("OperationMessage")
 
                 <div class="jarviswidget jarviswidget-color-darken topdarkborder">
-
-                    @using (Html.BeginForm("Create", "Brand", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform" }))
+                    @using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform" }))
                     {
                         @Html.AntiForgeryToken();
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(m => m.BrandId)
+                        @Html.HiddenFor(m => m.CategoryId)
 
                         <fieldset>
                             <div class="row">
-                                <section class="col col-md-12">
-                                    <div class="req">Brand Title</div>
-                                    <label class="input">                                        
-                                        @Html.TextBoxFor(m => m.BrandTitle, new { @class = "form-control", @placeholder = "Brand Title", @required = "required" })
-                                        @Html.ValidationMessageFor(m => m.BrandTitle, "", new { @class="text-danger"})
+                                <section class="col col-12">
+                                    <div class="req">Parent Category :</div>                                    
+                                    @Html.DropDownListFor(m => m.ParentId, ViewBag.ParentCategories as SelectList, "--Select Category--", new { @class = "select2", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.CategoryTitle, "", new { @class = "text-danger" })
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-12">
+                                    <div class="req">Category Title</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.CategoryTitle, new { @class = "form-control", @placeholder = "Brand Title", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.CategoryTitle, "", new { @class = "text-danger" })
                                     </label>
                                 </section>
                             </div>
 
                             <div class="row">
-                                <section class="col col-md-12">                                    
+                                <section class="col col-12">
                                     <label class="checkbox margin-top-0">
                                         @Html.CheckBoxFor(m => m.IsActive)
                                         <i></i>Active
@@ -85,13 +92,12 @@
                         </fieldset>
 
                         <footer>
-                            <a class="btn btn-default" href="@Url.Action("Index", "Brand")">Cancel</a>
+                            <a class="btn btn-default" href="@Url.Action("Index", "Category")">Cancel</a>
                             <button type="button" class="btn btn-primary" id="save">
                                 <i class="fa fa-save"></i>  Save
                             </button>
-                        </footer>                        
+                        </footer>
                     }
-
                 </div>
             </article>
         </div>
@@ -101,11 +107,13 @@
 <script type="text/javascript">
 
     $(document).ready(function (e) {
+        $('.select2').select2();
+
         var isView = '@ViewData["IsView"]';
 
         if (isView == "1") {
             $("input").attr("readonly", true);
-           // $("select").attr("disabled", true);
+            // $("select").attr("disabled", true);
             //$("textarea").attr("readonly", true);
             $("input[type='checkbox']").attr("disabled", true);
             $('.checkbox,input,select,textarea').css('cursor', 'no-drop');

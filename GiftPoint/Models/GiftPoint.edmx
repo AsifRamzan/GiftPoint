@@ -17,6 +17,31 @@
           <Property Name="LastUpdatedBy" Type="int" />
           <Property Name="LastUpdatedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryTitle" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="Departments">
           <Key>
             <PropertyRef Name="DepartmentId" />
@@ -101,6 +126,21 @@
           <Property Name="LastUpdatedBy" Type="int" />
           <Property Name="LastUpdatedOn" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Categories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="ParentId" />
+            <PropertyRef Name="ParentTitle" />
+            
+          </Key>
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="CategoryTitle" Type="varchar" MaxLength="100" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="ParentTitle" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <Association Name="FK_MenuConfigurations_Menu">
           <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
           <End Role="MenusConfigurations" Type="Self.MenusConfigurations" Multiplicity="*" />
@@ -149,8 +189,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="usp_ParentCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="GiftPointModelStoreContainer">
           <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Designations" EntityType="Self.Designations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
@@ -158,6 +201,15 @@
           <EntitySet Name="MenusRights" EntityType="Self.MenusRights" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_Categories" EntityType="Self.vw_Categories" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Categories].[CategoryId] AS [CategoryId], 
+    [vw_Categories].[CategoryTitle] AS [CategoryTitle], 
+    [vw_Categories].[ParentId] AS [ParentId], 
+    [vw_Categories].[ParentTitle] AS [ParentTitle], 
+    [vw_Categories].[IsActive] AS [IsActive]
+    FROM [dbo].[vw_Categories] AS [vw_Categories]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_MenuConfigurations_Menu" Association="Self.FK_MenuConfigurations_Menu">
             <End Role="Menus" EntitySet="Menus" />
             <End Role="MenusConfigurations" EntitySet="MenusConfigurations" />
@@ -344,6 +396,10 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <EntitySet Name="Brands" EntityType="GiftPointModel.Brand" />
+          <EntitySet Name="Companies" EntityType="GiftPointModel.Company" />
+          <EntitySet Name="vw_Categories" EntityType="GiftPointModel.vw_Categories" />
+          <FunctionImport Name="usp_ParentCategories" ReturnType="Collection(GiftPointModel.usp_ParentCategories_Result)" />
+          <EntitySet Name="Categories" EntityType="GiftPointModel.Category" />
         </EntityContainer>
         <EntityType Name="Brand">
           <Key>
@@ -351,6 +407,47 @@
           </Key>
           <Property Name="BrandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandTitle" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vw_Categories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="ParentId" />
+            <PropertyRef Name="ParentTitle" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="ParentTitle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="usp_ParentCategories_Result">
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="String" Name="CategoryTitle" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryTitle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -464,6 +561,52 @@
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="BrandTitle" ColumnName="BrandTitle" />
                 <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="GiftPointModel.Company">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Categories">
+            <EntityTypeMapping TypeName="GiftPointModel.vw_Categories">
+              <MappingFragment StoreEntitySet="vw_Categories">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ParentTitle" ColumnName="ParentTitle" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="CategoryTitle" ColumnName="CategoryTitle" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_ParentCategories" FunctionName="GiftPointModel.Store.usp_ParentCategories">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftPointModel.usp_ParentCategories_Result">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryTitle" ColumnName="CategoryTitle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="GiftPointModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="CategoryTitle" ColumnName="CategoryTitle" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

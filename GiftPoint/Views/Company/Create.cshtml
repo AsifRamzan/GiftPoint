@@ -1,4 +1,4 @@
-﻿@model GiftPoint.Models.Brand
+﻿@model GiftPoint.Models.Company
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
@@ -10,8 +10,8 @@
     </span>
     <ol class="breadcrumb">
         <li>Configuration</li>
-        <li>Brands</li>
-        @if (Model.BrandId != 0)
+        <li>Company</li>
+        @if (Model.CompanyId != 0)
         {
             if (ViewData["IsView"] != null)
             {
@@ -32,20 +32,20 @@
 <div id="content">
     <div class="row">
         <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            @if (Model.BrandId != 0)
+            @if (Model.CompanyId != 0)
             {
                 if (ViewData["IsView"] != null)
                 {
-                    <h1><i class="fa fa-desktop fa-fw "></i> View Brand</h1>
+                    <h1><i class="fa fa-desktop fa-fw "></i> View Company</h1>
                 }
                 else
                 {
-                    <h1><i class="fa fa-edit fa-fw "></i> Edit Brand</h1>
+                    <h1><i class="fa fa-edit fa-fw "></i> Edit Company</h1>
                 }
             }
             else
             {
-                <h1><i class="fa fa-save fa-fw "></i> Add Brand</h1>
+                <h1><i class="fa fa-save fa-fw "></i> Add Company</h1>
             }
         </div>
     </div>
@@ -56,26 +56,25 @@
                 @Html.Partial("OperationMessage")
 
                 <div class="jarviswidget jarviswidget-color-darken topdarkborder">
-
-                    @using (Html.BeginForm("Create", "Brand", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform" }))
+                    @using (Html.BeginForm("Create", "Company", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform" }))
                     {
                         @Html.AntiForgeryToken();
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(m => m.BrandId)
+                        @Html.HiddenFor(m => m.CompanyId)
 
                         <fieldset>
                             <div class="row">
-                                <section class="col col-md-12">
-                                    <div class="req">Brand Title</div>
-                                    <label class="input">                                        
-                                        @Html.TextBoxFor(m => m.BrandTitle, new { @class = "form-control", @placeholder = "Brand Title", @required = "required" })
-                                        @Html.ValidationMessageFor(m => m.BrandTitle, "", new { @class="text-danger"})
+                                <section class="col col-12">
+                                    <div class="req">Company Title</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", @placeholder = "Brand Title", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger" })
                                     </label>
                                 </section>
                             </div>
 
                             <div class="row">
-                                <section class="col col-md-12">                                    
+                                <section class="col col-12">
                                     <label class="checkbox margin-top-0">
                                         @Html.CheckBoxFor(m => m.IsActive)
                                         <i></i>Active
@@ -85,13 +84,12 @@
                         </fieldset>
 
                         <footer>
-                            <a class="btn btn-default" href="@Url.Action("Index", "Brand")">Cancel</a>
+                            <a class="btn btn-default" href="@Url.Action("Index", "Company")">Cancel</a>
                             <button type="button" class="btn btn-primary" id="save">
                                 <i class="fa fa-save"></i>  Save
                             </button>
-                        </footer>                        
+                        </footer>
                     }
-
                 </div>
             </article>
         </div>
@@ -105,7 +103,7 @@
 
         if (isView == "1") {
             $("input").attr("readonly", true);
-           // $("select").attr("disabled", true);
+            // $("select").attr("disabled", true);
             //$("textarea").attr("readonly", true);
             $("input[type='checkbox']").attr("disabled", true);
             $('.checkbox,input,select,textarea').css('cursor', 'no-drop');

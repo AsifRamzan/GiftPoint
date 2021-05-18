@@ -12,6 +12,8 @@ namespace GiftPoint.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class GiftPointEntities : DbContext
     {
@@ -33,5 +35,13 @@ namespace GiftPoint.Models
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<vw_Categories> vw_Categories { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+    
+        public virtual ObjectResult<usp_ParentCategories_Result> usp_ParentCategories()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ParentCategories_Result>("usp_ParentCategories");
+        }
     }
 }

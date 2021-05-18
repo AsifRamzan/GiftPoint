@@ -9,10 +9,10 @@ using System.Web.Routing;
 
 namespace GiftPoint.Controllers
 {
-    public class BrandController : Controller
+    public class CompanyController : Controller
     {
-        // GET: Brand
-        public ActionResult View(int? operationType)
+        // GET: Company        
+        public ActionResult Index(int? operationType)
         {
             if (operationType != null && operationType > 0)
             {
@@ -25,38 +25,38 @@ namespace GiftPoint.Controllers
                     ViewData[Constants.OPERATIONALMESSAGE] = Utils.getErrorMessage("Error", Constants.OPERATION_FAILED);
                 }
             }
-            ViewData.Model = new Brand().GetAll();
+            ViewData.Model = new Company().GetAll();
             return View();
         }
 
-        // GET: /Brand/Create  
-        [AllowAnonymous]              
+        // GET: /Company/Create  
+        [AllowAnonymous]
         public ActionResult Create(string Id, string IsView)
         {
             if (!string.IsNullOrEmpty(Id))
             {
                 int ID = Convert.ToInt32(new SecurityManager().DecodeString(Id));
-                var model = new Brand() { BrandId = ID }.GetById();
-                if(model != null)
+                var model = new Company() { CompanyId = ID }.GetById();
+                if (model != null)
                 {
                     ViewData["IsView"] = IsView;
                     return View(model);
                 }
             }
 
-            return View(new Brand());
+            return View(new Company());
         }
 
-        // POST: /Brand/Create
+        // POST: /Company/Create
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Brand model)
+        public ActionResult Create(Company model)
         {
             if (ModelState.IsValid)
             {
                 var ret = false;
-                if(model.BrandId > 0)
+                if (model.CompanyId > 0)
                 {
                     //update
                     model.LastUpdatedBy = 1;
@@ -71,20 +71,20 @@ namespace GiftPoint.Controllers
                     model.CreatedOn = DateTime.Now;
 
                     ret = model.Add();
-                }                
+                }
 
-                if(ret)
+                if (ret)
                 {
-                    return RedirectToRoute(new RouteValueDictionary(new { controller = "Brand", action = "Index", operationType = Convert.ToInt32(OperationMessageType.Success) }));                 
+                    return RedirectToRoute(new RouteValueDictionary(new { controller = "Company", action = "Index", operationType = Convert.ToInt32(OperationMessageType.Success) }));
                 }
                 else
                 {
-                    ViewData[Constants.OPERATIONALMESSAGE] = Utils.getErrorMessage("Error", Constants.OPERATION_FAILED);                    
+                    ViewData[Constants.OPERATIONALMESSAGE] = Utils.getErrorMessage("Error", Constants.OPERATION_FAILED);
                 }
             }
 
             return View(model);
-        }        
+        }
 
         public ActionResult Delete(string Id)
         {
@@ -95,9 +95,9 @@ namespace GiftPoint.Controllers
                     int ID = Convert.ToInt32(new SecurityManager().DecodeString(Id));
                     if (ID > 0)
                     {
-                        if (new Brand() { BrandId = ID }.Delete() == true)
+                        if (new Company() { CompanyId = ID }.Delete() == true)
                         {
-                            return RedirectToRoute(new RouteValueDictionary(new { controller = "Brand", action = "Index", operationType = Convert.ToInt64(OperationMessageType.Success) }));
+                            return RedirectToRoute(new RouteValueDictionary(new { controller = "Company", action = "Index", operationType = Convert.ToInt64(OperationMessageType.Success) }));
                         }
                     }
                 }
@@ -107,7 +107,7 @@ namespace GiftPoint.Controllers
                 new Logger().LogError(ex);
             }
 
-            return RedirectToRoute(new RouteValueDictionary(new { controller = "Brand", action = "Index", operationType = Convert.ToInt32(OperationMessageType.Error) }));
+            return RedirectToRoute(new RouteValueDictionary(new { controller = "Company", action = "Index", operationType = Convert.ToInt32(OperationMessageType.Error) }));
         }
     }
 }

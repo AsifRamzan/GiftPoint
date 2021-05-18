@@ -5,16 +5,16 @@ using System.Web;
 
 namespace GiftPoint.Models
 {
-    public partial class Brand
+    public partial class Category
     {
         private GiftPointEntities context = new GiftPointEntities();
         public bool Add()
         {
             try
             {
-                using(context = new GiftPointEntities())
+                using (context = new GiftPointEntities())
                 {
-                    context.Brands.Add(this);
+                    context.Categories.Add(this);
                     context.SaveChanges();
                     return true;
                 }
@@ -31,10 +31,11 @@ namespace GiftPoint.Models
             {
                 using (context = new GiftPointEntities())
                 {
-                    var result = context.Brands.FirstOrDefault(x => x.BrandId.Equals(this.BrandId));
+                    var result = context.Categories.FirstOrDefault(x => x.CategoryId.Equals(this.CategoryId));
                     if (result != null)
                     {
-                        result.BrandTitle = this.BrandTitle;
+                        result.ParentId = this.ParentId;
+                        result.CategoryTitle = this.CategoryTitle;
                         result.IsActive = this.IsActive;
                         result.LastUpdatedBy = this.LastUpdatedBy;
                         result.LastUpdatedOn = this.LastUpdatedOn;
@@ -50,13 +51,13 @@ namespace GiftPoint.Models
             }
         }
 
-        public Brand GetById()
+        public Category GetById()
         {
             try
             {
                 using (var context = new GiftPointEntities())
                 {
-                    return context.Brands.FirstOrDefault(x => x.BrandId.Equals(this.BrandId));
+                    return context.Categories.FirstOrDefault(x => x.CategoryId.Equals(this.CategoryId));
                 }
             }
             catch (Exception ex)
@@ -65,18 +66,18 @@ namespace GiftPoint.Models
             }
         }
 
-        public List<Brand> GetAll()
+        public List<vw_Categories> GetAll()
         {
             try
             {
                 using (var context = new GiftPointEntities())
                 {
-                    return context.Brands.ToList();
+                    return context.vw_Categories.OrderBy(x => x.ParentId).ToList();
                 }
             }
             catch (Exception ex)
             {
-                return new List<Brand>();
+                return new List<vw_Categories>();
             }
         }
 
@@ -86,10 +87,10 @@ namespace GiftPoint.Models
             {
                 using (var context = new GiftPointEntities())
                 {
-                    var result = context.Brands.FirstOrDefault(x => x.BrandId.Equals(this.BrandId));
-                    if(result != null)
+                    var result = context.Categories.FirstOrDefault(x => x.CategoryId.Equals(this.CategoryId));
+                    if (result != null)
                     {
-                        context.Brands.Remove(result);
+                        context.Categories.Remove(result);
                         context.SaveChanges();
                         return true;
                     }
@@ -101,6 +102,22 @@ namespace GiftPoint.Models
             }
 
             return false;
+        }
+
+        public List<usp_ParentCategories_Result> GetParentCategories()
+        {
+            try
+            {
+                using(context = new GiftPointEntities())
+                {
+                    var result = context.usp_ParentCategories().ToList();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<usp_ParentCategories_Result>();
+            }
         }
     }
 }

@@ -17,6 +17,9 @@
         <AssociationConnector Association="GiftPointModel.FK_MenusRights_UserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="GiftPointModel.FK_Users_UserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="GiftPointModel.Brand" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="GiftPointModel.Company" Width="1.5" PointX="8.375" PointY="8.75" />
+        <EntityTypeShape EntityType="GiftPointModel.vw_Categories" Width="1.5" PointX="5.375" PointY="9.75" />
+        <EntityTypeShape EntityType="GiftPointModel.Category" Width="1.5" PointX="8.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -5,16 +5,16 @@ using System.Web;
 
 namespace GiftPoint.Models
 {
-    public partial class Brand
+    public partial class Company
     {
         private GiftPointEntities context = new GiftPointEntities();
         public bool Add()
         {
             try
             {
-                using(context = new GiftPointEntities())
+                using (context = new GiftPointEntities())
                 {
-                    context.Brands.Add(this);
+                    context.Companies.Add(this);
                     context.SaveChanges();
                     return true;
                 }
@@ -31,10 +31,10 @@ namespace GiftPoint.Models
             {
                 using (context = new GiftPointEntities())
                 {
-                    var result = context.Brands.FirstOrDefault(x => x.BrandId.Equals(this.BrandId));
+                    var result = context.Companies.FirstOrDefault(x => x.CompanyId.Equals(this.CompanyId));
                     if (result != null)
-                    {
-                        result.BrandTitle = this.BrandTitle;
+                    {                        
+                        result.CompanyName = this.CompanyName;
                         result.IsActive = this.IsActive;
                         result.LastUpdatedBy = this.LastUpdatedBy;
                         result.LastUpdatedOn = this.LastUpdatedOn;
@@ -50,13 +50,13 @@ namespace GiftPoint.Models
             }
         }
 
-        public Brand GetById()
+        public Company GetById()
         {
             try
             {
                 using (var context = new GiftPointEntities())
                 {
-                    return context.Brands.FirstOrDefault(x => x.BrandId.Equals(this.BrandId));
+                    return context.Companies.FirstOrDefault(x => x.CompanyId.Equals(this.CompanyId));
                 }
             }
             catch (Exception ex)
@@ -65,18 +65,18 @@ namespace GiftPoint.Models
             }
         }
 
-        public List<Brand> GetAll()
+        public List<Company> GetAll()
         {
             try
             {
                 using (var context = new GiftPointEntities())
                 {
-                    return context.Brands.ToList();
+                    return context.Companies.ToList();
                 }
             }
             catch (Exception ex)
             {
-                return new List<Brand>();
+                return new List<Company>();
             }
         }
 
@@ -86,10 +86,10 @@ namespace GiftPoint.Models
             {
                 using (var context = new GiftPointEntities())
                 {
-                    var result = context.Brands.FirstOrDefault(x => x.BrandId.Equals(this.BrandId));
-                    if(result != null)
+                    var result = context.Companies.FirstOrDefault(x => x.CompanyId.Equals(this.CompanyId));
+                    if (result != null)
                     {
-                        context.Brands.Remove(result);
+                        context.Companies.Remove(result);
                         context.SaveChanges();
                         return true;
                     }

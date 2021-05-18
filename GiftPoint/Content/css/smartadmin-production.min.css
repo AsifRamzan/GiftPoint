@@ -9414,6 +9414,14 @@ textarea.clone {
         width: 83.33%;
     }
 
+    .smart-form .col-11{
+        width: 91.66%%;
+    }
+
+    .smart-form .col-12 {
+        width: 100%;
+    }
+
 @media screen and (max-width:600px) {
     .smart-form .col {
         float: none;
