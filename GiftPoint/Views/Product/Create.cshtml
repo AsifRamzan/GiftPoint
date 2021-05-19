@@ -1,0 +1,272 @@
+﻿@model GiftPoint.Models.Product
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+    </span>
+    <ol class="breadcrumb">
+        <li>Configuration</li>
+        <li>Category</li>
+        @if (Model.ProductId != 0)
+        {
+            if (ViewData["IsView"] != null)
+            {
+                <li>View</li>
+            }
+            else
+            {
+                <li>Edit</li>
+            }
+        }
+        else
+        {
+            <li>Add</li>
+        }
+    </ol>
+</div>
+
+<div id="content">
+    <div class="row">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @if (Model.ProductId != 0)
+            {
+                if (ViewData["IsView"] != null)
+                {
+                    <h1><i class="fa fa-desktop fa-fw "></i> View Category</h1>
+                }
+                else
+                {
+                    <h1><i class="fa fa-edit fa-fw "></i> Edit Category</h1>
+                }
+            }
+            else
+            {
+                <h1><i class="fa fa-save fa-fw "></i> Add Product</h1>
+            }
+        </div>
+    </div>
+
+    <section class="">
+        <div class="row">
+            <article class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.Partial("OperationMessage")
+
+                <div class="jarviswidget jarviswidget-color-darken topdarkborder">
+                    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform" }))
+                    {
+                        @Html.AntiForgeryToken();
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.ProductId)
+
+                        <fieldset>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <div class="req">Category:</div>
+                                    @Html.DropDownListFor(m => m.CategoryId1, ViewBag.ParentCategories1 as SelectList, new { @class = "select2", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.CategoryId1, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section class="col col-6">
+                                    <div class="req">Sub Category (1):</div>
+                                    @Html.DropDownListFor(m => m.CategoryId2, ViewBag.ParentCategories2 as SelectList, new { @class = "select2", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.CategoryId2, "", new { @class = "text-danger" })
+                                </section>
+                            </div>                            
+
+                            <div class="row">
+                                <section class="col col-6">
+                                    <div class="req">Sub Category (2):</div>
+                                    @Html.DropDownListFor(m => m.CategoryId3, ViewBag.ParentCategories3 as SelectList, new { @class = "select2", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.CategoryId3, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section class="col col-6">
+                                    <div class="req">Barcode</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.Barcode, new { @class = "form-control", @placeholder = "Barcode", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.Barcode, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-6">
+                                    <div class="req">Comapny:</div>
+                                    @Html.DropDownListFor(m => m.ComapnyId, ViewBag.Companies as SelectList, new { @class = "select2", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.ComapnyId, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section class="col col-6">
+                                    <div class="req">Brand:</div>
+                                    @Html.DropDownListFor(m => m.BrandId, ViewBag.Brands as SelectList, new { @class = "select2", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.BrandId, "", new { @class = "text-danger" })
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-6">
+                                    <div class="req">Product Title</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.ProductTitle, new { @class = "form-control", @placeholder = "Brand Title", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.ProductTitle, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div class="req">Old Product ID</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.ProductIdOld, new { @class = "form-control", @placeholder = "Old Product ID" })
+                                        @Html.ValidationMessageFor(m => m.ProductIdOld, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-6">
+                                    <div class="req">Product Description</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.ProductDescription, new { @class = "form-control", @placeholder = "Product Description" })
+                                        @Html.ValidationMessageFor(m => m.ProductDescription, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-6">
+                                    <div class="req">Product Usage</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.ProductUsage, new { @class = "form-control", @placeholder = "Product Usage" })
+                                        @Html.ValidationMessageFor(m => m.ProductUsage, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-3">
+                                    <div class="req">Purchase Price</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.PurchasePrice, new { @class = "form-control", @placeholder = "Purchase Price", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.PurchasePrice, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div class="req">Regular Price</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.RegularPrice, new { @class = "form-control", @placeholder = "Regular Price", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.RegularPrice, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div class="req">Dicount (%)</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.DiscountPercent, new { @class = "form-control", @placeholder = "Dicount (%)" })
+                                        @Html.ValidationMessageFor(m => m.DiscountPercent, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div class="req">Dicount</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.DiscountValue, new { @class = "form-control", @placeholder = "Dicount" })
+                                        @Html.ValidationMessageFor(m => m.DiscountValue, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-3">
+                                    <div>Sale Start Date</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.SaleStartDate, new { @class = "form-control", @placeholder = "Sale Start Date" })
+                                        @Html.ValidationMessageFor(m => m.SaleStartDate, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div>Sale End Date</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.SaleEndDate, new { @class = "form-control", @placeholder = "Sale End" })
+                                        @Html.ValidationMessageFor(m => m.SaleEndDate, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div>Sale Price</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.SalePrice, new { @class = "form-control", @placeholder = "Sale Price" })
+                                        @Html.ValidationMessageFor(m => m.SalePrice, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-3">
+                                    <div>Stock Limit (Min)</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.StockLimitMin, new { @class = "form-control", @placeholder = "Stock Limit (Min)" })
+                                        @Html.ValidationMessageFor(m => m.StockLimitMin, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div>Stock Limit (Max)</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.StockLimitMax, new { @class = "form-control", @placeholder = "Stock Limit (Max)" })
+                                        @Html.ValidationMessageFor(m => m.StockLimitMax, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div>&nbsp;</div>
+                                    <label class="checkbox margin-top-0">
+                                        <input type="checkbox" id="DataNotClear" />
+                                        <i></i>Data Not Clear
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-12">
+                                    <label class="checkbox margin-top-0">
+                                        @Html.CheckBoxFor(m => m.IsActive)
+                                        <i></i>Active
+                                    </label>
+                                </section>
+                            </div>
+                        </fieldset>
+
+                        <footer>
+                            <a class="btn btn-default" href="@Url.Action("Index", "Product")">Cancel</a>
+                            <button type="button" class="btn btn-primary" id="save">
+                                <i class="fa fa-save"></i>  Save
+                            </button>
+                        </footer>
+                    }
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function (e) {
+        $('.select2').select2();
+
+        var isView = '@ViewData["IsView"]';
+
+        if (isView == "1") {
+            $("input").attr("readonly", true);
+            // $("select").attr("disabled", true);
+            //$("textarea").attr("readonly", true);
+            $("input[type='checkbox']").attr("disabled", true);
+            $('.checkbox,input,select,textarea').css('cursor', 'no-drop');
+            $("#save").hide();
+        }
+    });
+
+</script>

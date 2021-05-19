@@ -196,6 +196,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Filters\CookieHandler.cs" />
     <Compile Include="Filters\SessionExpireFilterAttribute.cs" />
     <Compile Include="Filters\UserRightsFilterAttribute.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Models\Classes\Brand.cs" />
     <Compile Include="Models\Classes\Category.cs" />
     <Compile Include="Models\Classes\Company.cs" />
+    <Compile Include="Models\Classes\Product.cs" />
     <Compile Include="Models\Company.cs">
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
@@ -252,6 +254,9 @@
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MenusRight.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
@@ -1100,6 +1105,8 @@
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Create.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -17,7 +17,7 @@ namespace GiftPoint.Models
         public int CategoryId { get; set; }
         public string CategoryTitle { get; set; }
         public int ParentId { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public Nullable<int> LastUpdatedBy { get; set; }

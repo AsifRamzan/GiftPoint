@@ -97,6 +97,56 @@
           <Property Name="RowCreated" Type="datetime" />
           <Property Name="RowCreatedByUserId" Type="bigint" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GiftPoint.dbo.Product' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="ProductIdOld" />
+            <PropertyRef Name="ProductTitle" />
+            <PropertyRef Name="Barcode" />
+            <PropertyRef Name="PurchasePrice" />
+            <PropertyRef Name="RegularPrice" />
+            <PropertyRef Name="SalePrice" />
+            <PropertyRef Name="DiscountPercent" />
+            <PropertyRef Name="DiscountValue" />
+            <PropertyRef Name="StockLimitMin" />
+            <PropertyRef Name="StockLimitMax" />
+            <PropertyRef Name="ComapnyId" />
+            <PropertyRef Name="BrandId" />
+            <PropertyRef Name="CategoryId1" />
+            <PropertyRef Name="CategoryId2" />
+            <PropertyRef Name="CategoryId3" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedOn" />
+          </Key>
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="ProductIdOld" Type="int" Nullable="false" />
+          <Property Name="ProductTitle" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Barcode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProductUsage" Type="nvarchar" MaxLength="500" />
+          <Property Name="PurchasePrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RegularPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SalePrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SaleStartDate" Type="date" />
+          <Property Name="SaleEndDate" Type="date" />
+          <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DiscountValue" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="StockLimitMin" Type="int" Nullable="false" />
+          <Property Name="StockLimitMax" Type="int" Nullable="false" />
+          <Property Name="ComapnyId" Type="int" Nullable="false" />
+          <Property Name="BrandId" Type="int" Nullable="false" />
+          <Property Name="CategoryId1" Type="int" Nullable="false" />
+          <Property Name="CategoryId2" Type="int" Nullable="false" />
+          <Property Name="CategoryId3" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="UserRoles">
           <Key>
             <PropertyRef Name="RoleId" />
@@ -131,12 +181,13 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
         <EntityType Name="vw_Categories">
           <Key>
             <PropertyRef Name="CategoryId" />
+            
             <PropertyRef Name="ParentId" />
             <PropertyRef Name="ParentTitle" />
             
           </Key>
           <Property Name="CategoryId" Type="int" Nullable="false" />
-          <Property Name="CategoryTitle" Type="varchar" MaxLength="100" />
+          <Property Name="CategoryTitle" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="ParentId" Type="int" Nullable="false" />
           <Property Name="ParentTitle" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -201,6 +252,35 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <EntitySet Name="MenusRights" EntityType="Self.MenusRights" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Product].[ProductId] AS [ProductId], 
+    [Product].[ProductIdOld] AS [ProductIdOld], 
+    [Product].[ProductTitle] AS [ProductTitle], 
+    [Product].[Barcode] AS [Barcode], 
+    [Product].[ProductDescription] AS [ProductDescription], 
+    [Product].[ProductUsage] AS [ProductUsage], 
+    [Product].[PurchasePrice] AS [PurchasePrice], 
+    [Product].[RegularPrice] AS [RegularPrice], 
+    [Product].[SalePrice] AS [SalePrice], 
+    [Product].[SaleStartDate] AS [SaleStartDate], 
+    [Product].[SaleEndDate] AS [SaleEndDate], 
+    [Product].[DiscountPercent] AS [DiscountPercent], 
+    [Product].[DiscountValue] AS [DiscountValue], 
+    [Product].[StockLimitMin] AS [StockLimitMin], 
+    [Product].[StockLimitMax] AS [StockLimitMax], 
+    [Product].[ComapnyId] AS [ComapnyId], 
+    [Product].[BrandId] AS [BrandId], 
+    [Product].[CategoryId1] AS [CategoryId1], 
+    [Product].[CategoryId2] AS [CategoryId2], 
+    [Product].[CategoryId3] AS [CategoryId3], 
+    [Product].[IsActive] AS [IsActive], 
+    [Product].[CreatedBy] AS [CreatedBy], 
+    [Product].[CreatedOn] AS [CreatedOn], 
+    [Product].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [Product].[LastUpdatedOn] AS [LastUpdatedOn]
+    FROM [dbo].[Product] AS [Product]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_Categories" EntityType="Self.vw_Categories" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Categories].[CategoryId] AS [CategoryId], 
@@ -400,6 +480,7 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <EntitySet Name="vw_Categories" EntityType="GiftPointModel.vw_Categories" />
           <FunctionImport Name="usp_ParentCategories" ReturnType="Collection(GiftPointModel.usp_ParentCategories_Result)" />
           <EntitySet Name="Categories" EntityType="GiftPointModel.Category" />
+          <EntitySet Name="Products" EntityType="GiftPointModel.Product" />
         </EntityContainer>
         <EntityType Name="Brand">
           <Key>
@@ -432,7 +513,7 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
             <PropertyRef Name="ParentTitle" />
           </Key>
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
-          <Property Name="CategoryTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ParentId" Type="Int32" Nullable="false" />
           <Property Name="ParentTitle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -448,6 +529,54 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryTitle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="ProductIdOld" />
+            <PropertyRef Name="ProductTitle" />
+            <PropertyRef Name="Barcode" />
+            <PropertyRef Name="PurchasePrice" />
+            <PropertyRef Name="RegularPrice" />
+            <PropertyRef Name="SalePrice" />
+            <PropertyRef Name="DiscountPercent" />
+            <PropertyRef Name="DiscountValue" />
+            <PropertyRef Name="StockLimitMin" />
+            <PropertyRef Name="StockLimitMax" />
+            <PropertyRef Name="ComapnyId" />
+            <PropertyRef Name="BrandId" />
+            <PropertyRef Name="CategoryId1" />
+            <PropertyRef Name="CategoryId2" />
+            <PropertyRef Name="CategoryId3" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedOn" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="ProductIdOld" Type="Int32" Nullable="false" />
+          <Property Name="ProductTitle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Barcode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProductUsage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PurchasePrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RegularPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SalePrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SaleStartDate" Type="DateTime" Precision="0" />
+          <Property Name="SaleEndDate" Type="DateTime" Precision="0" />
+          <Property Name="DiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DiscountValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="StockLimitMin" Type="Int32" Nullable="false" />
+          <Property Name="StockLimitMax" Type="Int32" Nullable="false" />
+          <Property Name="ComapnyId" Type="Int32" Nullable="false" />
+          <Property Name="BrandId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId1" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId2" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId3" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -607,6 +736,37 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="CategoryTitle" ColumnName="CategoryTitle" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="GiftPointModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CategoryId3" ColumnName="CategoryId3" />
+                <ScalarProperty Name="CategoryId2" ColumnName="CategoryId2" />
+                <ScalarProperty Name="CategoryId1" ColumnName="CategoryId1" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="ComapnyId" ColumnName="ComapnyId" />
+                <ScalarProperty Name="StockLimitMax" ColumnName="StockLimitMax" />
+                <ScalarProperty Name="StockLimitMin" ColumnName="StockLimitMin" />
+                <ScalarProperty Name="DiscountValue" ColumnName="DiscountValue" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="SaleEndDate" ColumnName="SaleEndDate" />
+                <ScalarProperty Name="SaleStartDate" ColumnName="SaleStartDate" />
+                <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
+                <ScalarProperty Name="RegularPrice" ColumnName="RegularPrice" />
+                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+                <ScalarProperty Name="ProductUsage" ColumnName="ProductUsage" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="ProductTitle" ColumnName="ProductTitle" />
+                <ScalarProperty Name="ProductIdOld" ColumnName="ProductIdOld" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
