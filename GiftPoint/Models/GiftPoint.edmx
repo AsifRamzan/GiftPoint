@@ -97,31 +97,11 @@
           <Property Name="RowCreated" Type="datetime" />
           <Property Name="RowCreatedByUserId" Type="bigint" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'GiftPoint.dbo.Product' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="Product">
+        <EntityType Name="Products">
           <Key>
             <PropertyRef Name="ProductId" />
-            <PropertyRef Name="ProductIdOld" />
-            <PropertyRef Name="ProductTitle" />
-            <PropertyRef Name="Barcode" />
-            <PropertyRef Name="PurchasePrice" />
-            <PropertyRef Name="RegularPrice" />
-            <PropertyRef Name="SalePrice" />
-            <PropertyRef Name="DiscountPercent" />
-            <PropertyRef Name="DiscountValue" />
-            <PropertyRef Name="StockLimitMin" />
-            <PropertyRef Name="StockLimitMax" />
-            <PropertyRef Name="ComapnyId" />
-            <PropertyRef Name="BrandId" />
-            <PropertyRef Name="CategoryId1" />
-            <PropertyRef Name="CategoryId2" />
-            <PropertyRef Name="CategoryId3" />
-            <PropertyRef Name="IsActive" />
-            <PropertyRef Name="CreatedBy" />
-            <PropertyRef Name="CreatedOn" />
           </Key>
-          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductIdOld" Type="int" Nullable="false" />
           <Property Name="ProductTitle" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Barcode" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -250,37 +230,9 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenusConfigurations" EntityType="Self.MenusConfigurations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenusRights" EntityType="Self.MenusRights" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Product" EntityType="Self.Product" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Product].[ProductId] AS [ProductId], 
-    [Product].[ProductIdOld] AS [ProductIdOld], 
-    [Product].[ProductTitle] AS [ProductTitle], 
-    [Product].[Barcode] AS [Barcode], 
-    [Product].[ProductDescription] AS [ProductDescription], 
-    [Product].[ProductUsage] AS [ProductUsage], 
-    [Product].[PurchasePrice] AS [PurchasePrice], 
-    [Product].[RegularPrice] AS [RegularPrice], 
-    [Product].[SalePrice] AS [SalePrice], 
-    [Product].[SaleStartDate] AS [SaleStartDate], 
-    [Product].[SaleEndDate] AS [SaleEndDate], 
-    [Product].[DiscountPercent] AS [DiscountPercent], 
-    [Product].[DiscountValue] AS [DiscountValue], 
-    [Product].[StockLimitMin] AS [StockLimitMin], 
-    [Product].[StockLimitMax] AS [StockLimitMax], 
-    [Product].[ComapnyId] AS [ComapnyId], 
-    [Product].[BrandId] AS [BrandId], 
-    [Product].[CategoryId1] AS [CategoryId1], 
-    [Product].[CategoryId2] AS [CategoryId2], 
-    [Product].[CategoryId3] AS [CategoryId3], 
-    [Product].[IsActive] AS [IsActive], 
-    [Product].[CreatedBy] AS [CreatedBy], 
-    [Product].[CreatedOn] AS [CreatedOn], 
-    [Product].[LastUpdatedBy] AS [LastUpdatedBy], 
-    [Product].[LastUpdatedOn] AS [LastUpdatedOn]
-    FROM [dbo].[Product] AS [Product]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="vw_Categories" EntityType="Self.vw_Categories" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Categories].[CategoryId] AS [CategoryId], 
@@ -538,26 +490,8 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductId" />
-            <PropertyRef Name="ProductIdOld" />
-            <PropertyRef Name="ProductTitle" />
-            <PropertyRef Name="Barcode" />
-            <PropertyRef Name="PurchasePrice" />
-            <PropertyRef Name="RegularPrice" />
-            <PropertyRef Name="SalePrice" />
-            <PropertyRef Name="DiscountPercent" />
-            <PropertyRef Name="DiscountValue" />
-            <PropertyRef Name="StockLimitMin" />
-            <PropertyRef Name="StockLimitMax" />
-            <PropertyRef Name="ComapnyId" />
-            <PropertyRef Name="BrandId" />
-            <PropertyRef Name="CategoryId1" />
-            <PropertyRef Name="CategoryId2" />
-            <PropertyRef Name="CategoryId3" />
-            <PropertyRef Name="IsActive" />
-            <PropertyRef Name="CreatedBy" />
-            <PropertyRef Name="CreatedOn" />
           </Key>
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductIdOld" Type="Int32" Nullable="false" />
           <Property Name="ProductTitle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Barcode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -741,7 +675,7 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="GiftPointModel.Product">
-              <MappingFragment StoreEntitySet="Product">
+              <MappingFragment StoreEntitySet="Products">
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
