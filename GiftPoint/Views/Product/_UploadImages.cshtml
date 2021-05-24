@@ -1,0 +1,142 @@
+﻿@model GiftPoint.Models.Product
+@{
+    ViewBag.Title = "Upload Images";
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1><i class="fa fa-upload fa-fw "></i> Upload Images </h1>
+        </div>
+    </div>
+
+    <section class="">
+        <div class="row">
+            <article class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.Partial("OperationMessage")
+
+                <div class="jarviswidget jarviswidget-color-darken topdarkborder">
+                    @using (Html.BeginForm("UploadImages", "Product", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform" }))
+                    {
+                        @Html.AntiForgeryToken();
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.ProductId)
+
+                        <fieldset>
+                          
+                            <div class="row">
+                                <section class="col col-9">
+                                    <div class="req">Product Title</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.ProductTitle, new { @class = "form-control", @placeholder = "Brand Title", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.ProductTitle, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <div class="req">Old Product ID</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.ProductIdOld, new { @class = "form-control", @placeholder = "Old Product ID" })
+                                        @Html.ValidationMessageFor(m => m.ProductIdOld, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-12">
+                                    <input type="hidden" id="TotDetailRowNo">
+                                    <div style="height: auto;overflow-y:auto;overflow-x:auto;">
+                                        <table class="table table-bordered table-striped mb-none table-hover" id="datatable2">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-4">File Preview</th>
+                                                    <th class="col-7">File </th>
+                                                    <th class="col-1"> Action </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="DocmentBodyID">
+                                                <tr>
+                                                    <td> <img id="img-preview0" class="img-responsive img-centre" style="max-height:100px;">  </td>
+                                                    <td> <input type="file" id="btnInput-image" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, '#img-preview0')">  <input id="input-image" type="hidden" value="" name="EditFilePath"> </td>
+                                                    <td> 
+                                                        <button type="button" style="display: none;" id="ProductdetailDataAdd" title="Add" value="-" onclick="AddTOTdetailData(this.id, false)" class="btn btn-success  btn-xs btn-circle"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span><strong></strong></span></button>
+                                                        <button type="button" style="display: none;" id="ProductdetailDataDelete" title="Remove" value="-" onclick="DeleteDetailData()" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+
+                            </div>
+                        </fieldset>
+
+                        <footer>                            
+                            <button type="button" class="btn btn-primary" id="save">
+                                <i class="fa fa-save"></i>  Save
+                            </button>
+                        </footer>
+                    }
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function (e) {
+        $('.select2').select2();        
+    });
+
+    function AddTOTdetailData(ThisRowID, FromDocumentDotReady) {
+        var dtProductDetailInfoHtml;
+        var totalNullAccountsCount = 0;
+        var count = 0;
+
+        if (FromDocumentDotReady != true) {
+            if (document.getElementById("File_" + ThisRowID).value == 0) {
+                //message empty
+                bootbox.alert("Please Choose Image");
+                return false;
+            }
+        }
+
+        ////TotDetailRowNo
+        $("#DocmentBodyID tr").each(function () {
+
+            if (document.getElementById("File_" + ThisRowID).value == "") {
+                totalNullAccountsCount++;
+            }
+        });
+    }
+
+    //--- Image Preview on selection
+    function previewImage(input, previewerId) {
+        debugger;
+        if (input.files && input.files[0]) {
+            console.log(input.files);
+            console.log(input.files[0]);
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(previewerId).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+            $('#ProductdetailDataDelete').css('display', '');
+            $('#ProductdetailDataAdd').css('display', '');
+        }
+    }
+
+    function DeleteDetailData() {
+        debugger;
+        $('#img-preview0').removeAttr('src');
+        $('#input-image').val('');
+        $('#btnInput-image').val('');
+        $('#ProductdetailDataDelete').css('display', 'none');
+        $('#ProductdetailDataAdd').css('display', 'none');
+
+        //AddTOTdetailData(0, true);    
+    }
+
+</script>

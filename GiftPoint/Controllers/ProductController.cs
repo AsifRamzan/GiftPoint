@@ -123,6 +123,24 @@ namespace GiftPoint.Controllers
             return RedirectToRoute(new RouteValueDictionary(new { controller = "Product", action = "Index", operationType = Convert.ToInt32(OperationMessageType.Error) }));
         }
 
+        [HttpGet]
+        public PartialViewResult _UploadImages(string Id)
+        {
+            if (!string.IsNullOrEmpty(Id))
+            {
+                var PId = Convert.ToInt32(new SecurityManager().DecodeString(Id));
+                return PartialView(new Product() { ProductId = PId }.GetById());
+            }
+
+            return PartialView(new Product());
+        }
+
+        [HttpPost]
+        public ActionResult UploadImages()
+        {
+            return View("_UploadImages");
+        }
+
         #region Other Methods
         public SelectList GetParentCategories()
         {

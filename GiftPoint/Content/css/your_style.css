@@ -15,5 +15,9 @@
     color:red;
 }
 
+
+.dialogWide > .modal-dialog {
+    width: 60% !important;
+}
     /*input:focus:required:invalid {border: 2px solid red;}
     select:focus:required:invalid {border: 2px solid red;}*/

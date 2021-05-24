@@ -95,9 +95,9 @@
                                             <td>
                                                 <label><i class="@(obj.IsActive ? "fa fa-check-square-o txt-color-green fa-lg" : "fa fa-square-o txt-color-green fa-lg")"></i><small hidden>@obj.IsActive</small></label>
                                             </td>
-                                            <td class="text-center">
-                                                <a href="@Url.Action("Create", new { id = ID })" class="tooltip-info btn btn-xs btn-primary" data-rel="tooltip" title="Edit" style="text-decoration:none" id="@("lnkEdit" + obj.ProductId)">
-                                                    <i class="fa fancybox-image fa-lg"></i> Upload
+                                            <td class="text-center">                                               
+                                                <a href="#" class="tooltip-info btn btn-xs btn-primary" data-rel="tooltip" title="Upload Images" id="@("lnkUpload" + obj.ProductId)">
+                                                    <i class="fa fa-upload fa-lg"></i>
                                                 </a>
                                             </td>
                                             <td class="text-center">
@@ -119,6 +119,10 @@
 
                                                     $("#@("lnkDelete" + @obj.ProductId)").click(function () {
                                                         Delete('@ID');
+                                                    });
+
+                                                    $("#@("lnkUpload" + @obj.ProductId)").click(function () {
+                                                        Upload('@ID');
                                                     });
                                                 </script>
                                             </td>
@@ -148,6 +152,45 @@
                 document.getElementById("frmSiteUrl").action = siteBaseUrl + "Product/Delete/" + ID;
                 //showProcessingPopup();
                 document.getElementById("frmSiteUrl").submit();
+            }
+        });
+    }
+
+    function Upload(ID) {
+        //showProcessingPopup();                
+
+        var url = '/Product/_UploadImages'
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {Id : ID},
+            dataType: "html",
+            traditional: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                console.error(data);
+                if (data != undefined) {
+                    //hideProcessingPopup();
+                    var dialog = bootbox.dialog({
+                        className: "dialogWide",
+                        message: data,
+                        onEscape: function () {
+                            $("input").attr("readonly", false);
+                            $("input").attr("disabled", false);
+                            $("select").attr("disabled", false);
+                            $("textarea").attr("readonly", false);
+                        }
+                    });
+                }
+                else {
+                    //hideProcessingPopup();
+                    bootbox.alert("Error occurs on the Database level!");
+                }
+            },
+            error: function () {
+                //hideProcessingPopup();
+                bootbox.alert("An error has occured!!!");
             }
         });
     }
