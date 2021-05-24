@@ -126,19 +126,19 @@ namespace GiftPoint.Controllers
         [HttpGet]
         public PartialViewResult _UploadImages(string Id)
         {
-            if (!string.IsNullOrEmpty(Id))
-            {
-                var PId = Convert.ToInt32(new SecurityManager().DecodeString(Id));
-                return PartialView(new Product() { ProductId = PId }.GetById());
-            }
+            //if (!string.IsNullOrEmpty(Id))
+            //{
+            //    var PId = Convert.ToInt32(new SecurityManager().DecodeString(Id));
+            //    return PartialView(new Product() { ProductId = PId }.GetById());
+            //}
 
             return PartialView(new Product());
         }
 
         [HttpPost]
-        public ActionResult UploadImages()
+        public ActionResult UploadImages(Product model)
         {
-            return View("_UploadImages");
+            return null;
         }
 
         #region Other Methods

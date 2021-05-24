@@ -16,7 +16,7 @@
                 @Html.Partial("OperationMessage")
 
                 <div class="jarviswidget jarviswidget-color-darken topdarkborder">
-                    @using (Html.BeginForm("UploadImages", "Product", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform" }))
+                    @using (Html.BeginForm("UploadImages", "Product", FormMethod.Post, new { @class = "smart-form", role = "form", @name = "myform", @enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken();
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -48,21 +48,44 @@
                                     <div style="height: auto;overflow-y:auto;overflow-x:auto;">
                                         <table class="table table-bordered table-striped mb-none table-hover" id="datatable2">
                                             <thead>
-                                                <tr>
+                                                <tr>                                                    
                                                     <th class="col-4">File Preview</th>
                                                     <th class="col-7">File </th>
                                                     <th class="col-1"> Action </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="DocmentBodyID">
-                                                <tr>
-                                                    <td> <img id="img-preview0" class="img-responsive img-centre" style="max-height:100px;">  </td>
-                                                    <td> <input type="file" id="btnInput-image" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, '#img-preview0')">  <input id="input-image" type="hidden" value="" name="EditFilePath"> </td>
-                                                    <td> 
-                                                        <button type="button" style="display: none;" id="ProductdetailDataAdd" title="Add" value="-" onclick="AddTOTdetailData(this.id, false)" class="btn btn-success  btn-xs btn-circle"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span><strong></strong></span></button>
-                                                        <button type="button" style="display: none;" id="ProductdetailDataDelete" title="Remove" value="-" onclick="DeleteDetailData()" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
-                                                    </td>
-                                                </tr>
+                                                @if (Model != null)
+                                                {
+                                                    if (Model.pathFile != null)
+                                                    {
+                                                        var host = new UriBuilder(Request.Url.Scheme, Request.Url.Host, Request.Url.Port);
+                                                        int a = 0;
+                                                        foreach (var item in Model.pathFile)
+                                                        {
+                                                            <tr>
+                                                                <td> <img id="img_preview_@a" src="@host@item.FullName.TrimStart('~')" class="img-responsive img-centre" style="max-height:100px;" />  </td>
+                                                                <td> <input type="file" id="btnInput-image_@a" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, @a)">  <input type="hidden" id="input-image_@a" value="@item.FullName" name="EditFilePath" /><a href="@host@item.FullName.TrimStart('~').TrimStart('/')">Download</a> </td>
+                                                                <td> 
+                                                                    <button type="button" style="" id="add_@a" title="Add" value="+" onclick="AddDetailData()" class="btn btn-success  btn-xs btn-circle"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span><strong></strong></span></button>
+                                                                    <button type="button" style="" id="del_@a" title="Remove" value="-" onclick="DeleteDetailData(@a)" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
+                                                                </td>
+                                                            </tr>
+                                                            a++;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr id="tr_0">
+                                                            <td> <img id="img_preview_0" class="img-responsive img-centre" style="max-height:100px;">  </td>
+                                                            <td> <input type="file" id="btnInput-image_0" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, 0)">  <input id="input-image_0" type="hidden" value="" name="EditFilePath"> </td>
+                                                            <td>
+                                                                <button type="button" style="display: none;" id="add_0" title="Add" value="+" onclick="AddDetailData()" class="btn btn-success  btn-xs btn-circle"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span><strong></strong></span></button>
+                                                                <button type="button" style="display: none;" id="del_0" title="Remove" value="-" onclick="DeleteDetailData(0)" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
@@ -72,7 +95,7 @@
                         </fieldset>
 
                         <footer>                            
-                            <button type="button" class="btn btn-primary" id="save">
+                            <button type="submit" class="btn btn-primary" id="save">
                                 <i class="fa fa-save"></i>  Save
                             </button>
                         </footer>
@@ -86,33 +109,39 @@
 <script type="text/javascript">
 
     $(document).ready(function (e) {
-        $('.select2').select2();        
-    });
+            
+    });    
 
-    function AddTOTdetailData(ThisRowID, FromDocumentDotReady) {
-        var dtProductDetailInfoHtml;
-        var totalNullAccountsCount = 0;
-        var count = 0;
-
-        if (FromDocumentDotReady != true) {
-            if (document.getElementById("File_" + ThisRowID).value == 0) {
-                //message empty
-                bootbox.alert("Please Choose Image");
-                return false;
-            }
+    function AddDetailData() {
+        debugger;        
+       
+        var lastRowID = $('#DocmentBodyID tr:last').attr('id');
+        if (lastRowID != undefined) {
+            lastRowID = parseInt(lastRowID.split('_')[1]) + 1;
+        } else {
+            lastRowID = 0;
         }
+        
+        var row = GetRow(lastRowID);
+        $('#DocmentBodyID').append(row);
+    }
 
-        ////TotDetailRowNo
-        $("#DocmentBodyID tr").each(function () {
+    function GetRow(Id) {
+        //debugger;
+        var row = `<tr id="tr_${Id}">`;
 
-            if (document.getElementById("File_" + ThisRowID).value == "") {
-                totalNullAccountsCount++;
-            }
-        });
+        row += `<td> <img id="img_preview_${Id}" class="img-responsive img-centre" style="max-height:100px;">  </td>`;
+        row += `<td> <input type="file" id="btnInput-image_${Id}" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, ${Id})">  <input id="input-image_${Id}" type="hidden" value="" name="EditFilePath"> </td>`;
+        row += ` <td> <button type="button" style="display: none;" id="add_${Id}" title="Add" value="+" onclick="AddDetailData(${Id})" class="btn btn-success  btn-xs btn-circle"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span><strong></strong></span></button> `;
+        row += `<button type="button" style="display: none;" id="del_${Id}" title="Remove" value="-" onclick="DeleteDetailData(${Id})" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button></td>`;
+
+        row += `</tr>`;
+
+        return row;
     }
 
     //--- Image Preview on selection
-    function previewImage(input, previewerId) {
+    function previewImage(input, Id) {
         debugger;
         if (input.files && input.files[0]) {
             console.log(input.files);
@@ -120,23 +149,27 @@
 
             var reader = new FileReader();
             reader.onload = function (e) {
-                $(previewerId).attr('src', e.target.result);
+                $(`#img_preview_${Id}`).attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
-            $('#ProductdetailDataDelete').css('display', '');
-            $('#ProductdetailDataAdd').css('display', '');
+            $(`#add_${Id}`).css('display', '');
+            $(`#del_${Id}`).css('display', '');
         }
     }
 
-    function DeleteDetailData() {
+    function DeleteDetailData(Id) {
         debugger;
-        $('#img-preview0').removeAttr('src');
-        $('#input-image').val('');
-        $('#btnInput-image').val('');
-        $('#ProductdetailDataDelete').css('display', 'none');
-        $('#ProductdetailDataAdd').css('display', 'none');
 
-        //AddTOTdetailData(0, true);    
+        var lastCount = $('#DocmentBodyID tr').length;
+        if (lastCount == 1) {
+            $(`#img_preview_${Id}`).removeAttr('src');
+            $(`#input-image_${Id}`).val('');
+            $(`#btnInput-image_${Id}`).val('');
+            $(`#add_${Id}`).css('display', 'none');
+            $(`#del_${Id}`).css('display', 'none');  
+        } else {
+            $(`#tr_${Id}`).remove();
+        }
     }
 
 </script>

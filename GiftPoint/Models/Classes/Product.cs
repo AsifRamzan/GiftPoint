@@ -9,6 +9,10 @@ namespace GiftPoint.Models
     {
         private GiftPointEntities context = new GiftPointEntities();
 
+        public IEnumerable<HttpPostedFileBase> File { get; set; }
+        public List<string> EditFilePath { get; set; }
+        public IEnumerable<ImageInfo> pathFile { get; set; }
+
         public bool Add()
         {
             try
@@ -183,6 +187,16 @@ namespace GiftPoint.Models
             {
                 return new List<Brand>();
             }
+        }
+    }
+
+    public class ImageInfo
+    {
+        public string Path { get; set; }
+        public string Name { get; set; }
+        public string FullName
+        {
+            get { return (this.Path + this.Name); }
         }
     }
 }
