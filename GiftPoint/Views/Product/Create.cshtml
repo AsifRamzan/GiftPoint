@@ -179,7 +179,13 @@
                                         @Html.ValidationMessageFor(m => m.SalePrice, "", new { @class = "text-danger" })
                                     </label>
                                 </section>
-                            </div>
+
+                                <section class="col col-3">
+                                    <div class="req">Weight:</div>
+                                    @Html.DropDownListFor(m => m.WeightId, ViewBag.Weights as SelectList, new { @class = "select2", @style = "width:100%;" })
+                                    @Html.ValidationMessageFor(m => m.WeightId, "", new { @class = "text-danger" })
+                                </section>
+                            </div>                           
 
                             <div class="row">
                                 <section class="col col-3">
@@ -198,11 +204,27 @@
                                     </label>
                                 </section>
 
-                                <section class="col col-3">
-                                    <div>&nbsp;</div>
-                                    <label class="checkbox margin-top-0">
-                                        <input type="checkbox" id="DataNotClear" />
-                                        <i></i>Data Not Clear
+                                <section class="col col-2">
+                                    <div class="req">Length:</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.Length, new { @class = "form-control", @placeholder = "Length" })
+                                        @Html.ValidationMessageFor(m => m.Length, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-2">
+                                    <div class="req">Width:</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.Width, new { @class = "form-control", @placeholder = "Width" })
+                                        @Html.ValidationMessageFor(m => m.Width, "", new { @class = "text-danger" })
+                                    </label>
+                                </section>
+
+                                <section class="col col-2">
+                                    <div class="req">Height:</div>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.Height, new { @class = "form-control", @placeholder = "Height", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.Height, "", new { @class = "text-danger" })
                                     </label>
                                 </section>
                             </div>
@@ -227,10 +249,17 @@
                             </div>
 
                             <div class="row">
-                                <section class="col col-12">
+                                <section class="col col-3">
                                     <label class="checkbox margin-top-0">
                                         @Html.CheckBoxFor(m => m.IsActive)
                                         <i></i>Active
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">                                    
+                                    <label class="checkbox margin-top-0">
+                                        <input type="checkbox" id="DataNotClear" />
+                                        <i></i>Data Not Clear
                                     </label>
                                 </section>
                             </div>

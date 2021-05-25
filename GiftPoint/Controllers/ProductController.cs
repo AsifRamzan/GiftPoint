@@ -41,6 +41,7 @@ namespace GiftPoint.Controllers
             ViewBag.ParentCategories3 = this.GetCategoriesByParent(-1, "--Select Sub Group (2)--");
             ViewBag.Companies = this.GetCompanies();
             ViewBag.Brands = this.GetBrands();
+            ViewBag.Weights = this.GetWeights();
 
             if (!string.IsNullOrEmpty(Id))
             {
@@ -99,6 +100,7 @@ namespace GiftPoint.Controllers
             ViewBag.ParentCategories3 = this.GetCategoriesByParent((model.CategoryId2 > 0 ? model.CategoryId2 : -1), "--Select Sub Group (2)--");
             ViewBag.Companies = this.GetCompanies();
             ViewBag.Brands = this.GetBrands();
+            ViewBag.Weights = this.GetWeights();
 
             return View(model);
         }
@@ -276,7 +278,26 @@ namespace GiftPoint.Controllers
 
             return new SelectList(list, "Value", "Text");
         }
-        
+
+        public SelectList GetWeights()
+        {
+            var Weights = new Weight().GetAll();
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem() { Value = "0", Text = "--Select Weight--" });
+
+            foreach (var item in Weights)
+            {
+                list.Add(new SelectListItem()
+                {
+                    Value = item.WeightId.ToString(),
+                    Text = item.WeightTitle
+                });
+            }
+
+            return new SelectList(list, "Value", "Text");
+        }
+
         #endregion
     }
 }

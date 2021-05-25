@@ -197,6 +197,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\WeightController.cs" />
     <Compile Include="Filters\CookieHandler.cs" />
     <Compile Include="Filters\SessionExpireFilterAttribute.cs" />
     <Compile Include="Filters\UserRightsFilterAttribute.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Models\Classes\Company.cs" />
     <Compile Include="Models\Classes\Product.cs" />
     <Compile Include="Models\Classes\ProductPhoto.cs" />
+    <Compile Include="Models\Classes\Weight.cs" />
     <Compile Include="Models\Company.cs">
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
@@ -273,6 +275,9 @@
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_Categories.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Weight.cs">
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1112,6 +1117,8 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\_UploadImages.cshtml" />
+    <Content Include="Views\Weight\Index.cshtml" />
+    <Content Include="Views\Weight\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

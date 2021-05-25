@@ -38,8 +38,9 @@ namespace GiftPoint.Models
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<vw_Categories> vw_Categories { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductPhoto> ProductPhotos { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Weight> Weights { get; set; }
     
         public virtual ObjectResult<usp_ParentCategories_Result> usp_ParentCategories()
         {

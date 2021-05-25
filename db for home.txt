@@ -1,0 +1,32 @@
+USE [GiftPoint]
+GO
+
+/****** Object:  Table [dbo].[Weights]    Script Date: 25/05/2021 5:55:56 pm ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Weights](
+	[WeightId] [int] IDENTITY(1,1) NOT NULL,
+	[WeightTitle] [nvarchar](50) NOT NULL,
+	[CreatedBy] [int] NOT NULL,
+	[CreatedOn] [datetime] NOT NULL,
+	[LastUpdatedBy] [int] NULL,
+	[LastUpdatedOn] [datetime] NULL,
+ CONSTRAINT [PK_Weights] PRIMARY KEY CLUSTERED 
+(
+	[WeightId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+
+alter Products
+add WeightId int not null,
+	Length decimal(18,2) null,
+	Width decimal(18,2) null,
+	Height decimal(18,2) null,

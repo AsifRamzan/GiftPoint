@@ -131,6 +131,10 @@
           <Property Name="CategoryId1" Type="int" Nullable="false" />
           <Property Name="CategoryId2" Type="int" Nullable="false" />
           <Property Name="CategoryId3" Type="int" Nullable="false" />
+          <Property Name="WeightId" Type="int" Nullable="false" />
+          <Property Name="Length" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Width" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Height" Type="decimal" Precision="18" Scale="2" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -161,6 +165,17 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="LastLogin" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Weights">
+          <Key>
+            <PropertyRef Name="WeightId" />
+          </Key>
+          <Property Name="WeightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WeightTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="LastUpdatedBy" Type="int" />
@@ -244,6 +259,7 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Weights" EntityType="Self.Weights" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_Categories" EntityType="Self.vw_Categories" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Categories].[CategoryId] AS [CategoryId], 
@@ -443,8 +459,9 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <EntitySet Name="vw_Categories" EntityType="GiftPointModel.vw_Categories" />
           <FunctionImport Name="usp_ParentCategories" ReturnType="Collection(GiftPointModel.usp_ParentCategories_Result)" />
           <EntitySet Name="Categories" EntityType="GiftPointModel.Category" />
-          <EntitySet Name="Products" EntityType="GiftPointModel.Product" />
           <EntitySet Name="ProductPhotos" EntityType="GiftPointModel.ProductPhoto" />
+          <EntitySet Name="Products" EntityType="GiftPointModel.Product" />
+          <EntitySet Name="Weights" EntityType="GiftPointModel.Weight" />
         </EntityContainer>
         <EntityType Name="Brand">
           <Key>
@@ -499,6 +516,16 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <Property Name="LastUpdatedBy" Type="Int32" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="ProductPhoto">
+          <Key>
+            <PropertyRef Name="PhotoDetailId" />
+          </Key>
+          <Property Name="PhotoDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -523,21 +550,26 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <Property Name="CategoryId1" Type="Int32" Nullable="false" />
           <Property Name="CategoryId2" Type="Int32" Nullable="false" />
           <Property Name="CategoryId3" Type="Int32" Nullable="false" />
+          <Property Name="WeightId" Type="Int32" Nullable="false" />
+          <Property Name="Length" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Width" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Height" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LastUpdatedBy" Type="Int32" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="ProductPhoto">
+        <EntityType Name="Weight">
           <Key>
-            <PropertyRef Name="PhotoDetailId" />
+            <PropertyRef Name="WeightId" />
           </Key>
-          <Property Name="PhotoDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="WeightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WeightTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -695,6 +727,17 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProductPhotos">
+            <EntityTypeMapping TypeName="GiftPointModel.ProductPhoto">
+              <MappingFragment StoreEntitySet="ProductPhotos">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PhotoDetailId" ColumnName="PhotoDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="GiftPointModel.Product">
               <MappingFragment StoreEntitySet="Products">
@@ -703,6 +746,10 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="WeightId" ColumnName="WeightId" />
                 <ScalarProperty Name="CategoryId3" ColumnName="CategoryId3" />
                 <ScalarProperty Name="CategoryId2" ColumnName="CategoryId2" />
                 <ScalarProperty Name="CategoryId1" ColumnName="CategoryId1" />
@@ -726,14 +773,15 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProductPhotos">
-            <EntityTypeMapping TypeName="GiftPointModel.ProductPhoto">
-              <MappingFragment StoreEntitySet="ProductPhotos">
+          <EntitySetMapping Name="Weights">
+            <EntityTypeMapping TypeName="GiftPointModel.Weight">
+              <MappingFragment StoreEntitySet="Weights">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="PhotoDetailId" ColumnName="PhotoDetailId" />
+                <ScalarProperty Name="WeightTitle" ColumnName="WeightTitle" />
+                <ScalarProperty Name="WeightId" ColumnName="WeightId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

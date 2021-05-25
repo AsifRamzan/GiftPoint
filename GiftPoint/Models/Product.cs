@@ -34,6 +34,10 @@ namespace GiftPoint.Models
         public int CategoryId1 { get; set; }
         public int CategoryId2 { get; set; }
         public int CategoryId3 { get; set; }
+        public int WeightId { get; set; }
+        public Nullable<decimal> Length { get; set; }
+        public Nullable<decimal> Width { get; set; }
+        public Nullable<decimal> Height { get; set; }
         public bool IsActive { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }

@@ -53,6 +53,10 @@ namespace GiftPoint.Models
                         result.CategoryId1 = this.CategoryId1;
                         result.CategoryId2 = this.CategoryId2;
                         result.CategoryId3 = this.CategoryId3;
+                        result.WeightId = this.WeightId;
+                        result.Length = this.Length;
+                        result.Width = this.Width;
+                        result.Height = this.Height;
                         result.IsActive = this.IsActive;
                         result.LastUpdatedBy = this.LastUpdatedBy;
                         result.LastUpdatedOn = this.LastUpdatedOn;
@@ -184,15 +188,5 @@ namespace GiftPoint.Models
                 return new List<Brand>();
             }
         }
-    }
-
-    public class ImageInfo
-    {
-        public string Path { get; set; }
-        public string Name { get; set; }
-        public string FullName
-        {
-            get { return (this.Path + this.Name); }
-        }
-    }
+    }    
 }
