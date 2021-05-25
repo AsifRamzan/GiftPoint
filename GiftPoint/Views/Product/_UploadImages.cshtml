@@ -56,7 +56,7 @@
                                                                 </td>
                                                                 <td> 
                                                                     <button type="button" style="" id="add_@a" title="Add" value="+" onclick="AddDetailData()" class="btn btn-success  btn-xs btn-circle"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span><strong></strong></span></button>
-                                                                    <button type="button" style="" id="del_@a" title="Remove" value="-" onclick="DeleteDetailData(@a)" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
+                                                                    <button type="button" style="display:none;" id="del_@a" title="Remove" value="-" onclick="DeleteDetailData(@a)" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
                                                                 </td>
                                                             </tr>
                                                             a++;
@@ -90,6 +90,7 @@
                             <button type="button" class="btn btn-primary" id="save">
                                 <i class="fa fa-save"></i>  Save
                             </button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
                         </footer>
                     }
                 </div>
@@ -100,24 +101,26 @@
 
 <script type="text/javascript">
 
-    var files = [];
-
     $(document).ready(function (e) {
         $('#save').click(function() {
             
             if (window.FormData !== undefined) {
                 debugger;
-
-                //var fileUpload = $("#file").get(0);
-                //var files = fileUpload.files;
-
                 // Create FormData object
                 var fileData = new FormData();
 
-                // Looping over all files and add it to FormData object
-                for (var i = 0; i < files.length; i++) {
-                    fileData.append(files[i].name, files[i]);
-                }
+                var i = 0;
+                $('#DocmentBodyID tr').each(function () {
+                    debugger;
+                    if ($(`#btnInput-image_${i}`).get(0) != null && $(`#btnInput-image_${i}`).get(0) != undefined) {
+                        var fileUpload = $(`#btnInput-image_${i}`).get(0).files;
+                        if (fileUpload.length > 0) {
+                            fileData.append(fileUpload[0].name, fileUpload[0]);
+                        }
+                    }
+
+                    i++;
+                });
 
                 // Adding one more key to FormData object
                 fileData.append('ProductId', $("#ProductId").val());
@@ -144,7 +147,7 @@
     });    
 
     function AddDetailData() {
-        debugger;        
+        //debugger;        
        
         var lastRowID = $('#DocmentBodyID tr:last').attr('id');
         if (lastRowID != undefined) {
@@ -173,10 +176,10 @@
 
     //--- Image Preview on selection
     function previewImage(input, Id) {
-        debugger;
+        //debugger;
         if (input.files && input.files[0]) {
-            console.log(input.files);
-            console.log(input.files[0]);
+            //console.log(input.files);
+            //console.log(input.files[0]);
 
             var reader = new FileReader();
             reader.onload = function (e) {
@@ -185,13 +188,15 @@
             reader.readAsDataURL(input.files[0]);
             $(`#add_${Id}`).css('display', '');
             $(`#del_${Id}`).css('display', '');
-
-            files.push(input.files[0]);
+            
+            AddDetailData();
         }
     }
 
     function DeleteDetailData(Id) {
         debugger;
+
+        var file = $(`#btnInput-image_${Id}`).get(0).files[0];
 
         var lastCount = $('#DocmentBodyID tr').length;
         if (lastCount == 1) {
@@ -202,7 +207,7 @@
             $(`#del_${Id}`).css('display', 'none');  
         } else {
             $(`#tr_${Id}`).remove();
-        }
+        }       
     }
 
 </script>

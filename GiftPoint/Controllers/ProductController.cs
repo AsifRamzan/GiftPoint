@@ -37,8 +37,8 @@ namespace GiftPoint.Controllers
         public ActionResult Create(string Id, string IsView)
         {
             ViewBag.ParentCategories1 = this.GetParentCategories();
-            ViewBag.ParentCategories2 = this.GetParentCategories();
-            ViewBag.ParentCategories3 = this.GetParentCategories();
+            ViewBag.ParentCategories2 = this.GetCategoriesByParent(-1, "--Select Sub Group (1)--");
+            ViewBag.ParentCategories3 = this.GetCategoriesByParent(-1, "--Select Sub Group (2)--");
             ViewBag.Companies = this.GetCompanies();
             ViewBag.Brands = this.GetBrands();
 
@@ -48,6 +48,8 @@ namespace GiftPoint.Controllers
                 var model = new Product() { ProductId = ID }.GetById();
                 if (model != null)
                 {
+                    ViewBag.ParentCategories2 = this.GetCategoriesByParent((model.CategoryId1 > 0 ? model.CategoryId1 : -1), "--Select Sub Group (1)--");
+                    ViewBag.ParentCategories3 = this.GetCategoriesByParent((model.CategoryId2 > 0 ? model.CategoryId2 : -1), "--Select Sub Group (2)--");
                     ViewData["IsView"] = IsView;
                     return View(model);
                 }
@@ -93,8 +95,8 @@ namespace GiftPoint.Controllers
             }
 
             ViewBag.ParentCategories1 = this.GetParentCategories();
-            ViewBag.ParentCategories2 = this.GetParentCategories();
-            ViewBag.ParentCategories3 = this.GetParentCategories();
+            ViewBag.ParentCategories2 = this.GetCategoriesByParent((model.CategoryId1 > 0 ? model.CategoryId1 : -1), "--Select Sub Group (1)--");
+            ViewBag.ParentCategories3 = this.GetCategoriesByParent((model.CategoryId2 > 0 ? model.CategoryId2 : -1), "--Select Sub Group (2)--");
             ViewBag.Companies = this.GetCompanies();
             ViewBag.Brands = this.GetBrands();
 
@@ -168,7 +170,7 @@ namespace GiftPoint.Controllers
                                 Directory.CreateDirectory(folder);
                             }
 
-                            string imagename = $"{ProductId}_Image_{i}{Path.GetExtension(file.FileName)}";
+                            string imagename = $"{ProductId}_Image_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
                             var path = Path.Combine(Server.MapPath($"~/{Constants.PRODUCT_IMAGES_DIRECTORY_PATH}{ProductId}"), imagename);
                             file.SaveAs(path);
 
@@ -182,6 +184,10 @@ namespace GiftPoint.Controllers
                         error_msg += $" {ex.Message}";
                     }
                 }
+            }
+            else
+            {
+                return Json("No photos to upload");
             }
 
             if (string.IsNullOrEmpty(error_msg))
@@ -198,7 +204,7 @@ namespace GiftPoint.Controllers
             var Categories = new Product().GetParentCategories();
 
             List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem() { Value = "0", Text = "--Select Category--"});
+            list.Add(new SelectListItem() { Value = "0", Text = "--Select Group--"});
 
             foreach (var item in Categories)
             {
@@ -207,6 +213,27 @@ namespace GiftPoint.Controllers
                     Value = item.CategoryId.ToString(),
                     Text = item.CategoryTitle
                 });
+            }
+
+            return new SelectList(list, "Value", "Text");
+        }
+
+        public SelectList GetCategoriesByParent(int ParentId, string Title)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem() { Value = "0", Text = $"{Title}" });
+
+            if (ParentId != -1)
+            {
+                var Categories = new Category().GetCategoriesByParent(ParentId);
+                foreach (var item in Categories)
+                {
+                    list.Add(new SelectListItem()
+                    {
+                        Value = item.CategoryId.ToString(),
+                        Text = item.CategoryTitle
+                    });
+                } 
             }
 
             return new SelectList(list, "Value", "Text");
@@ -249,6 +276,7 @@ namespace GiftPoint.Controllers
 
             return new SelectList(list, "Value", "Text");
         }
+        
         #endregion
     }
 }

@@ -119,5 +119,21 @@ namespace GiftPoint.Models
                 return new List<usp_ParentCategories_Result>();
             }
         }
+
+        public List<vw_Categories> GetCategoriesByParent(int ParentId)
+        {
+            try
+            {
+                using (context = new GiftPointEntities())
+                {
+                    var result = context.vw_Categories.Where(x => x.ParentId == ParentId).ToList();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<vw_Categories>();
+            }
+        }
     }
 }

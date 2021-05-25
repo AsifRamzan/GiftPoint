@@ -132,6 +132,23 @@ namespace GiftPoint.Controllers
 
             return new SelectList(list, "Value", "Text");
         }
+
+        public ActionResult GetCategoriesByParent(int ParentId)
+        {
+            try
+            {
+                var Categories = new Category().GetCategoriesByParent(ParentId);
+                var final = Categories.Select(y => new { id = y.CategoryId, text = y.CategoryTitle}).ToList();
+
+                return Json(final);
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+            return Json("");
+        }
         #endregion
     }
 }
