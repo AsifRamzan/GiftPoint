@@ -1,39 +1,23 @@
 USE [GiftPoint]
 GO
 
-/****** Object:  Table [dbo].[Product]    Script Date: 19/05/2021 9:54:45 AM ******/
+/****** Object:  Table [dbo].[ProductPhotos]    Script Date: 25/05/2021 8:45:50 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[Product](
-	[ProductId] [int] primary key identity(1,1) NOT NULL,
-	[ProductIdOld] [int] NOT NULL,
-	[ProductTitle] [nvarchar](100) NOT NULL,
-	[Barcode] [nvarchar](50) NOT NULL,
-	[ProductDescription] [nvarchar](500) NULL,
-	[ProductUsage] [nvarchar](500) NULL,
-	[PurchasePrice] [decimal](18, 2) NOT NULL,
-	[RegularPrice] [decimal](18, 2) NOT NULL,
-	[SalePrice] [decimal](18, 2) NOT NULL,
-	[SaleStartDate] [date] NULL,
-	[SaleEndDate] [date] NULL,
-	[DiscountPercent] [decimal](18, 2) NOT NULL,
-	[DiscountValue] [decimal](18, 2) NOT NULL,
-	[StockLimitMin] [int] NOT NULL,
-	[StockLimitMax] [int] NOT NULL,
-	[ComapnyId] [int] NOT NULL,
-	[BrandId] [int] NOT NULL,
-	[CategoryId1] [int] NOT NULL,
-	[CategoryId2] [int] NOT NULL,
-	[CategoryId3] [int] NOT NULL,
-	[IsActive] [bit] NOT NULL,
+CREATE TABLE [dbo].[ProductPhotos](
+	[PhotoDetailId] [bigint] IDENTITY(1,1) NOT NULL,
+	[ProductId] [int] NOT NULL,
+	[PhotoPath] [varchar](500) NOT NULL,
 	[CreatedBy] [int] NOT NULL,
 	[CreatedOn] [datetime] NOT NULL,
-	[LastUpdatedBy] [int] NULL,
-	[LastUpdatedOn] [datetime] NULL
+PRIMARY KEY CLUSTERED 
+(
+	[PhotoDetailId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO

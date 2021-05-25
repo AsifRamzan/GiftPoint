@@ -97,6 +97,16 @@
           <Property Name="RowCreated" Type="datetime" />
           <Property Name="RowCreatedByUserId" Type="bigint" />
         </EntityType>
+        <EntityType Name="ProductPhotos">
+          <Key>
+            <PropertyRef Name="PhotoDetailId" />
+          </Key>
+          <Property Name="PhotoDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="PhotoPath" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Products">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -230,6 +240,7 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenusConfigurations" EntityType="Self.MenusConfigurations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenusRights" EntityType="Self.MenusRights" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductPhotos" EntityType="Self.ProductPhotos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -433,6 +444,7 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <FunctionImport Name="usp_ParentCategories" ReturnType="Collection(GiftPointModel.usp_ParentCategories_Result)" />
           <EntitySet Name="Categories" EntityType="GiftPointModel.Category" />
           <EntitySet Name="Products" EntityType="GiftPointModel.Product" />
+          <EntitySet Name="ProductPhotos" EntityType="GiftPointModel.ProductPhoto" />
         </EntityContainer>
         <EntityType Name="Brand">
           <Key>
@@ -516,6 +528,16 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LastUpdatedBy" Type="Int32" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProductPhoto">
+          <Key>
+            <PropertyRef Name="PhotoDetailId" />
+          </Key>
+          <Property Name="PhotoDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -701,6 +723,17 @@ warning 6002: The table/view 'GiftPoint.dbo.vw_Categories' does not have a prima
                 <ScalarProperty Name="ProductTitle" ColumnName="ProductTitle" />
                 <ScalarProperty Name="ProductIdOld" ColumnName="ProductIdOld" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductPhotos">
+            <EntityTypeMapping TypeName="GiftPointModel.ProductPhoto">
+              <MappingFragment StoreEntitySet="ProductPhotos">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PhotoDetailId" ColumnName="PhotoDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

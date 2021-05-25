@@ -2,6 +2,8 @@
 using GiftPoint.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -126,19 +128,68 @@ namespace GiftPoint.Controllers
         [HttpGet]
         public PartialViewResult _UploadImages(string Id)
         {
-            //if (!string.IsNullOrEmpty(Id))
-            //{
-            //    var PId = Convert.ToInt32(new SecurityManager().DecodeString(Id));
-            //    return PartialView(new Product() { ProductId = PId }.GetById());
-            //}
+            if (!string.IsNullOrEmpty(Id))
+            {
+                var PId = Convert.ToInt32(new SecurityManager().DecodeString(Id));
+                var obj = new ProductPhoto() { ProductId = PId };
+                obj.Detail = obj.GetById();
 
-            return PartialView(new Product());
+                return PartialView(obj);
+            }
+
+            return PartialView(new ProductPhoto());
         }
 
         [HttpPost]
-        public ActionResult UploadImages(Product model)
+        public ActionResult UploadImages()
         {
-            return null;
+            NameValueCollection form = Request.Form;
+            int ProductId = int.Parse(Convert.ToString(form["ProductId"]));
+
+            ProductPhoto model = new ProductPhoto();
+            model.ProductId = ProductId;
+            model.CreatedOn = DateTime.Now;
+            model.CreatedBy = 1;
+
+            string error_msg = string.Empty;
+
+            if (Request.Files != null && Request.Files.Count > 0)
+            {
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    try
+                    {
+                        var file = Request.Files[i];
+                        if (file != null)
+                        {
+                            var folder = Server.MapPath($"~/{Constants.PRODUCT_IMAGES_DIRECTORY_PATH}{ProductId}");
+                            if (!Directory.Exists(folder))
+                            {
+                                Directory.CreateDirectory(folder);
+                            }
+
+                            string imagename = $"{ProductId}_Image_{i}{Path.GetExtension(file.FileName)}";
+                            var path = Path.Combine(Server.MapPath($"~/{Constants.PRODUCT_IMAGES_DIRECTORY_PATH}{ProductId}"), imagename);
+                            file.SaveAs(path);
+
+                            model.PhotoPath = imagename;
+
+                            model.Add();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        error_msg += $" {ex.Message}";
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(error_msg))
+            {
+                return Json("Photos Uploaded Successfully");
+            }
+
+            return Json(error_msg);
         }
 
         #region Other Methods

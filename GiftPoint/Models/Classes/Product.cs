@@ -7,11 +7,7 @@ namespace GiftPoint.Models
 {
     public partial class Product
     {
-        private GiftPointEntities context = new GiftPointEntities();
-
-        public IEnumerable<HttpPostedFileBase> File { get; set; }
-        public List<string> EditFilePath { get; set; }
-        public IEnumerable<ImageInfo> pathFile { get; set; }
+        private GiftPointEntities context = new GiftPointEntities();        
 
         public bool Add()
         {

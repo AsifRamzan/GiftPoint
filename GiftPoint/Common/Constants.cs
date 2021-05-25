@@ -54,5 +54,6 @@ namespace GiftPoint.Common
         public const string LOADING_GIF =
             @"<div style='text-align:center'><h2><i class='fa fa-spinner fa-spin fa-2x'></i>&nbsp;&nbsp;Loading... Please wait...!</h2></div>";
         public const int TradeExecutive = 47;
+        public const string PRODUCT_IMAGES_DIRECTORY_PATH = "ProductImages/";
     }
 }

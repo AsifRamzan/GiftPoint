@@ -1,7 +1,8 @@
-﻿@model GiftPoint.Models.Product
+﻿@model GiftPoint.Models.ProductPhoto
 @{
     ViewBag.Title = "Upload Images";
 }
+@using GiftPoint.Common;
 
 <div id="content">
     <div class="row">
@@ -22,25 +23,7 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(m => m.ProductId)
 
-                        <fieldset>
-                          
-                            <div class="row">
-                                <section class="col col-9">
-                                    <div class="req">Product Title</div>
-                                    <label class="input">
-                                        @Html.TextBoxFor(m => m.ProductTitle, new { @class = "form-control", @placeholder = "Brand Title", @required = "required" })
-                                        @Html.ValidationMessageFor(m => m.ProductTitle, "", new { @class = "text-danger" })
-                                    </label>
-                                </section>
-
-                                <section class="col col-3">
-                                    <div class="req">Old Product ID</div>
-                                    <label class="input">
-                                        @Html.TextBoxFor(m => m.ProductIdOld, new { @class = "form-control", @placeholder = "Old Product ID" })
-                                        @Html.ValidationMessageFor(m => m.ProductIdOld, "", new { @class = "text-danger" })
-                                    </label>
-                                </section>
-                            </div>
+                        <fieldset>                                                      
 
                             <div class="row">
                                 <section class="col col-12">
@@ -49,23 +32,28 @@
                                         <table class="table table-bordered table-striped mb-none table-hover" id="datatable2">
                                             <thead>
                                                 <tr>                                                    
-                                                    <th class="col-4">File Preview</th>
+                                                    <th class="col-3">File Preview</th>
                                                     <th class="col-7">File </th>
-                                                    <th class="col-1"> Action </th>
+                                                    <th class="col-2"> Action </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="DocmentBodyID">
                                                 @if (Model != null)
                                                 {
-                                                    if (Model.pathFile != null)
+                                                    if (Model.Detail != null && Model.Detail.Count > 0)
                                                     {
                                                         var host = new UriBuilder(Request.Url.Scheme, Request.Url.Host, Request.Url.Port);
                                                         int a = 0;
-                                                        foreach (var item in Model.pathFile)
+                                                        foreach (var item in Model.Detail)
                                                         {
-                                                            <tr>
-                                                                <td> <img id="img_preview_@a" src="@host@item.FullName.TrimStart('~')" class="img-responsive img-centre" style="max-height:100px;" />  </td>
-                                                                <td> <input type="file" id="btnInput-image_@a" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, @a)">  <input type="hidden" id="input-image_@a" value="@item.FullName" name="EditFilePath" /><a href="@host@item.FullName.TrimStart('~').TrimStart('/')">Download</a> </td>
+                                                            string img_path = $"{host}{Constants.PRODUCT_IMAGES_DIRECTORY_PATH}{item.ProductId}/{item.PhotoPath}";
+                                                            <tr id="tr_@a">
+                                                                <td> <img id="img_preview_@a" src="@img_path" class="img-responsive img-centre" style="max-height:100px;" />  </td>
+                                                                <td> <input type="file" id="btnInput-image_@a" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, @a)">  
+                                                                    <input type="hidden" id="input-image_@a" value="@item.PhotoPath" name="EditFilePath" />
+                                                                    <small>Only [.jpg, .jpeg, .png] format</small> <br />
+                                                                    <a href="@img_path" target="_blank">Download</a> 
+                                                                </td>
                                                                 <td> 
                                                                     <button type="button" style="" id="add_@a" title="Add" value="+" onclick="AddDetailData()" class="btn btn-success  btn-xs btn-circle"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span><strong></strong></span></button>
                                                                     <button type="button" style="" id="del_@a" title="Remove" value="-" onclick="DeleteDetailData(@a)" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
@@ -78,10 +66,14 @@
                                                     {
                                                         <tr id="tr_0">
                                                             <td> <img id="img_preview_0" class="img-responsive img-centre" style="max-height:100px;">  </td>
-                                                            <td> <input type="file" id="btnInput-image_0" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, 0)">  <input id="input-image_0" type="hidden" value="" name="EditFilePath"> </td>
+                                                            <td> 
+                                                                <input type="file" id="btnInput-image_0" accept=".jpg, .jpeg, .png" name="File" onchange="previewImage(this, 0)">  
+                                                                <input id="input-image_0" type="hidden" value="" name="EditFilePath"> 
+                                                                <small>Only [.jpg, .jpeg, .png] format</small> 
+                                                            </td>
                                                             <td>
                                                                 <button type="button" style="display: none;" id="add_0" title="Add" value="+" onclick="AddDetailData()" class="btn btn-success  btn-xs btn-circle"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span><strong></strong></span></button>
-                                                                <button type="button" style="display: none;" id="del_0" title="Remove" value="-" onclick="DeleteDetailData(0)" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
+                                                                &nbsp;<button type="button" style="display: none;" id="del_0" title="Remove" value="-" onclick="DeleteDetailData(0)" class="btn btn-danger  btn-xs btn-circle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span><strong></strong></span></button>
                                                             </td>
                                                         </tr>
                                                     }
@@ -95,7 +87,7 @@
                         </fieldset>
 
                         <footer>                            
-                            <button type="submit" class="btn btn-primary" id="save">
+                            <button type="button" class="btn btn-primary" id="save">
                                 <i class="fa fa-save"></i>  Save
                             </button>
                         </footer>
@@ -108,8 +100,47 @@
 
 <script type="text/javascript">
 
+    var files = [];
+
     $(document).ready(function (e) {
+        $('#save').click(function() {
             
+            if (window.FormData !== undefined) {
+                debugger;
+
+                //var fileUpload = $("#file").get(0);
+                //var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                // Adding one more key to FormData object
+                fileData.append('ProductId', $("#ProductId").val());
+
+                //showProcessingPopup();
+                $.ajax({
+                    url: '/Product/UploadImages',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        //hideProcessingPopup();
+                        $('.dialogWide').find('.close').trigger('click');
+                        bootbox.alert(result);
+                    },
+                    error: function (err) {
+                        bootbox.alert(err.statusText);
+                        //hideProcessingPopup();
+                    }
+                });
+            }
+        });
     });    
 
     function AddDetailData() {
@@ -154,6 +185,8 @@
             reader.readAsDataURL(input.files[0]);
             $(`#add_${Id}`).css('display', '');
             $(`#del_${Id}`).css('display', '');
+
+            files.push(input.files[0]);
         }
     }
 

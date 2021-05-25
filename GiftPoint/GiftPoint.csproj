@@ -217,6 +217,7 @@
     <Compile Include="Models\Classes\Category.cs" />
     <Compile Include="Models\Classes\Company.cs" />
     <Compile Include="Models\Classes\Product.cs" />
+    <Compile Include="Models\Classes\ProductPhoto.cs" />
     <Compile Include="Models\Company.cs">
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
@@ -257,6 +258,9 @@
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
+      <DependentUpon>GiftPoint.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductPhoto.cs">
       <DependentUpon>GiftPoint.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
@@ -1112,6 +1116,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\realestate\thumbs\" />
+    <Folder Include="ProductImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
