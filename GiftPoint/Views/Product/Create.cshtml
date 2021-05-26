@@ -302,6 +302,16 @@
         }
 
         $('#CategoryId1').change(function () {
+            var CategoryId1 = $('#CategoryId1').val();
+            if (CategoryId1 == 0) {
+                $('#CategoryId2').empty();
+                $('#CategoryId2').append(new Option("Select Sub Group (1)", "0"));
+
+                $('#CategoryId3').empty();
+                $('#CategoryId3').append(new Option("Select Sub Group (2)", "0"));
+                return true;
+            }
+
             $.ajax({
                 url: '@Url.Action("GetCategoriesByParent", "Category")',
                 type: "POST",
@@ -371,15 +381,5 @@
             $('#DiscountPercent').val(discount_percent);
             $('#DiscountValue').val(DiscountValue);
         }
-    }
-
-    function DiscountValue_Change() {        
-        var RegularPrice = parseFloat("0" + $('#RegularPrice').val());
-        var DiscountValue = parseFloat("0" + $('#DiscountValue').val());
-        
-        var discount_percent = DiscountValue * 100 / RegularPrice;
-
-        $('#DiscountPercent').val(discount_percent);
-        $('#SalePrice').val(RegularPrice - discount_value);
     }
 </script>
